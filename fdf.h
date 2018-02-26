@@ -15,7 +15,7 @@
 
 # include <stdlib.h>
 # include <fcntl.h>
-# include <mlx.h>
+# include "./minilibx_macos/mlx.h"
 # include "./libft/libft.h"
 
 #endif
