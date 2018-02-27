@@ -39,9 +39,12 @@ static size_t		count_words(char const *s, char c)
 	count = 0;
 	while (s[i])
 	{
-		if (s[i] == c && s[i + 1] != c)
+		while (s[i] == c)
+			i++;
+		if (s[i] != '\0')
 			count++;
-		i++;
+		while (s[i] && (s[i] != c))
+			i++;
 	}
 	return (count);
 }

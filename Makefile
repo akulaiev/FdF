@@ -18,21 +18,21 @@ CFLAGS = -Wall -Werror -Wextra
 LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft/
 
-MLX = ./minilibx_macos/libmlx.a
-MLX_PATH = ./minilibx_macos/
+# MLX = ./minilibx_macos/libmlx.a
+# MLX_PATH = ./minilibx_macos/
 
-SOURCE = main.c
-O_FILES = main.o
+SOURCE = main.c draw_a_line.c event_handle.c get_data.c
+O_FILES = main.o draw_a_line.o event_handle.o get_data.o
 
 HEADER = -I ./fdf.h
 
 all: LIBS $(NAME) 
 
 $(NAME): $(O_FILES)
-	$(CC) $(MLX) -framework OpenGL -framework AppKit $(CC_FLAGS) -o $(NAME) $(O_FILES) $(LIBFT) 
+	$(CC) -lmlx -framework OpenGL -framework AppKit $(CC_FLAGS) -o $(NAME) $(O_FILES) $(LIBFT) 
 
 LIBS:
-	make -C $(MLX_PATH)
+	# make -C $(MLX_PATH)
 	make -C $(LIBFT_PATH)
 
 %.o: %.c

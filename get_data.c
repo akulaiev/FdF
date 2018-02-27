@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   get_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/26 14:26:33 by akulaiev          #+#    #+#             */
-/*   Updated: 2018/02/26 14:26:36 by akulaiev         ###   ########.fr       */
+/*   Created: 2018/02/27 18:56:22 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/02/27 18:56:25 by akulaiev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "fdf.h"
+#include <stdio.h>
 
-# include <stdlib.h>
-# include <fcntl.h>
-# include "./minilibx_macos/mlx.h"
-# include "./libft/libft.h"
-
-typedef	struct	s_mlx
+char	**read_the_map(int fd)
 {
-	int		x0;
-	int		y0;
-	int		x1;
-	int		y1;
-	int		col;
-}				minlx;
+	char	*read_line;
+	// char	*all_line;
+	// char	**coord_line;
+	int		i;
 
-void			set_coord(void *mlx_p, void *mlx_nw);
-void			draw_a_line(void *mlx_p, void *mlx_nw, minlx line);
-int				key_react(int keycode, void *param);
-char			**read_the_map(int fd);
-
-#endif
+	i = 0;
+	get_next_line(fd, &read_line);
+	while (get_next_line(fd, &read_line))
+		printf("%s\n", read_line);
+	return (0);
+}

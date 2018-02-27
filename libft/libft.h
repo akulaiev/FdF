@@ -12,9 +12,12 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# define BUFF_SIZE 13
+
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 typedef struct	s_list
 {
@@ -22,6 +25,13 @@ typedef struct	s_list
 	size_t			content_size;
 	struct s_list	*next;
 }				t_list;
+
+typedef	struct	s_list1
+{
+	char			content[BUFF_SIZE + 1];
+	int				list_fd;
+	struct s_list1	*next;
+}				t_list1;
 
 int				ft_toupper(int c);
 int				ft_tolower(int c);
@@ -86,4 +96,5 @@ int				ft_sqrt(int nb);
 int				ft_isspace(int c);
 char			**ft_strsort(char **str, int num);
 int				*ft_range(int min, int max);
+int				get_next_line(const int fd, char **line);
 #endif

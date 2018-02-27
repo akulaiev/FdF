@@ -13,51 +13,28 @@
 #include "fdf.h"
 #include <stdio.h>
 
-int 	absolute(int i)
-{
-	if (i < 0)
-		i *= (-1);
-	return (i);
-}
-
-void 	draw_a_line(void *mlx_p, void *mlx_nw, int x0, int x1, int y0, int y1)
-{
-	int 	tilt;
-	int 	dir_y;
-	int 	y;
-	int 	x;
-
-	y = y0;
-	x = x0;
-	tilt = 0;
-	dir_y = y1 - y0;
-	if (dir_y > 0)
-		dir_y = 1;
-	if (dir_y < 0)
-		dir_y = -1;
-	while (x >= x0 && x <= x1)
-	{
-		mlx_pixel_put(mlx_p, mlx_nw, x, y, 0xf442eb);
-		tilt = tilt + absolute(y1 - y0);
-		if ((tilt * 2) >= absolute(x1 - x0))
-		{
-			y += dir_y;
-			tilt -= absolute(x1 - x0);
-		}
-		x++;
-	}
-
-}
-
-int		main(void)
+static void		manipulate_window()	
 {
 	void	*mlx_p;
 	void	*mlx_nw;
 
-	if (!(mlx_p = mlx_init()))
-		return (0);
-	if (!(mlx_nw = mlx_new_window(mlx_p, 713, 713, "test_window")))
-		return (0);
-	draw_a_line(mlx_p, mlx_nw, 0, 513, 0, 113);
+	mlx_p = mlx_init();
+	mlx_nw = mlx_new_window(mlx_p, 713, 713, "test_window");
+	set_coord(mlx_p, mlx_nw);
+	mlx_key_hook(mlx_nw, key_react, (void*)0);
 	mlx_loop(mlx_p);
+}
+
+int			main(int argc, char **argv)
+{
+	int		fd;
+	
+	if (argc != 2)
+	{
+		ft_putendl("usage: ./fdf 42.fdf");
+		return (0);
+	}
+	fd = open(argv[1], O_RDONLY);
+	read_the_map(fd);
+	// manipulate_window();
 }
