@@ -16,6 +16,7 @@
 int		ft_atoi_base(const char *str, int base)
 {
 	int 	i;
+	int		diff;
 	int 	temp;
 	int 	check;
 
@@ -31,16 +32,11 @@ int		ft_atoi_base(const char *str, int base)
 			check = 1;
 		i++;
 	}
-	while (((str[i] >= '0' && str[i] <= '9') || (str[i] >= 'A' && str[i] <= 'F')
-	|| (str[i] >= 'a' && str[i] <= 'f')) && str[i])
+	while (((str[i] >= '0' && str[i] <= '9' && (diff = '0')) || (str[i] >= 'A' && 
+	str[i] <= 'F' && (diff = '7')) || (str[i] >= 'a' && str[i] <= 'f' && (diff = 'W'))) && str[i])
 	{
 		temp *= base;
-		if (str[i] >= '0' && str[i] <= '9')
-			temp += str[i] - '0';
-		if (str[i] >= 'A' && str[i] <= 'F')
-			temp += str[i] - '7';
-		if (str[i] >= 'a' && str[i] <= 'f')
-			temp += str[i] - 'W';
+		temp += str[i] - diff;
 		i++;
 	}
 	check == 1 ? (temp = -temp) : (temp = temp);
@@ -66,7 +62,9 @@ int			**read_the_map(int fd)
 	t_data	data;
 	int		**coord_arr;
 	int		i;
-	int		res;
+	int		j;
+	int		base;
+	// int		res;
 
 	data.size = 0;
 	i = 0;
@@ -80,15 +78,23 @@ int			**read_the_map(int fd)
 		ft_strcat(data.all_line, "\n");
 	}
 	data.coord_line = ft_strsplit(data.all_line, '\n');
+	while (data.coord_line[i])
+	{
+		j = 0;
+		while (data.coord_line[j])
+		{
+			
+			j++;
+		}
+		i++;
+	}
 	while (data.coord_line[data.size])
 	{
 		printf("%s∆\n", data.coord_line[data.size]);
 		data.size++;
 	}
-	if ((!(coord_arr = (int**)malloc(sizeof(int*)))) || (!(*coord_arr = (int*)malloc(sizeof(int) * data.size))))
-		return (NULL);
-	res = ft_atoi_base("10359", 16);
-	printf("%i\n", res);
+	// if ((!(coord_arr = (int**)malloc(sizeof(int*)))) || (!(*coord_arr = (int*)malloc(sizeof(int) * data.size))))
+	// 	return (NULL);
 	// while (data.coord_line[i])
 	// {
 	// 	res = ft_atoi_base(data.coord_line[i]);
