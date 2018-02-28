@@ -35,6 +35,8 @@ int			main(int argc, char **argv)
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
-	read_the_map(fd);
+	if (!(read_the_map(fd)))
+		return (0);
 	// manipulate_window();
+	return(1);
 }

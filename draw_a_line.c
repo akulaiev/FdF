@@ -20,7 +20,7 @@ static int		absolute(int i) // needed for the Bresenham's line algorithm
 	return (i);
 }
 
-void	draw_a_line(void *mlx_p, void *mlx_nw, minlx line) // can be used in the program
+void			draw_a_line(void *mlx_p, void *mlx_nw, t_minlx line) // can be used in the program
 {
 	int		tilt;
 	int		dir_y;
@@ -49,9 +49,9 @@ void	draw_a_line(void *mlx_p, void *mlx_nw, minlx line) // can be used in the pr
 	}
 }
 
-static minlx	coord_to_struct(int x0, int y0, int x1, int y1) // to be deleted in order of the architecture
+static t_minlx	coord_to_struct(int x0, int y0, int x1, int y1) // to be deleted in order of the architecture
 {
-	minlx	line;
+	t_minlx	line;
 
 	line.x0 = x0;
 	line.y0 = y0;
@@ -60,9 +60,9 @@ static minlx	coord_to_struct(int x0, int y0, int x1, int y1) // to be deleted in
 	return (line);
 }
 
-void	set_coord(void *mlx_p, void *mlx_nw) // to be adjusted due to the program architecture
+void			set_coord(void *mlx_p, void *mlx_nw) // to be adjusted due to the program architecture
 {
-	minlx	line;
+	t_minlx	line;
 
 	line = coord_to_struct(100, 100, 600, 100);
 	line.col = 0xf442eb;
