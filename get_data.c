@@ -13,93 +13,106 @@
 #include "fdf.h"
 #include <stdio.h>
 
-int		ft_atoi_base(const char *str, int base)
+static char		*colour_deal(char *all_line, int col_start, int col_end)
 {
-	int 	i;
-	int		diff;
-	int 	temp;
-	int 	check;
+	char	*temp_str;
 
-	i = 0;
-	temp = 0;
-	check = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v' || str[i] == '\f'
-	|| str[i] == '\r' || str[i] == ' ')
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			check = 1;
-		i++;
-	}
-	while (((str[i] >= '0' && str[i] <= '9' && (diff = '0')) || (str[i] >= 'A' && 
-	str[i] <= 'F' && (diff = '7')) || (str[i] >= 'a' && str[i] <= 'f' && (diff = 'W'))) && str[i])
-	{
-		temp *= base;
-		temp += str[i] - diff;
-		i++;
-	}
-	check == 1 ? (temp = -temp) : (temp = temp);
-	return (temp);
+	if (!(temp_str = (char *)ft_memalloc(ft_strlen(all_line))))
+		return (NULL);
+	ft_strncpy(temp_str, all_line, col_start);
+	ft_strcat(temp_str, &all_line[col_end]);
+	return (temp_str);
 }
 
-static char		*ft_realloc(char *line, size_t old, size_t new)
-{
-	char *temp;
-
-	if ((new == 0 || new <= old) && line)
-		return (line);
-	if (!line)
-		return (ft_memalloc(new + 1));
-	temp = (char*)malloc(new + old + 1);
-	ft_strcpy(temp, line);
-	free(line);
-	return (temp);
-}
-
-int			**read_the_map(int fd)
+static t_data	get_all_data(int fd)
 {
 	t_data	data;
-	int		**coord_arr;
-	int		i;
-	int		j;
-	int		base;
-	// int		res;
 
-	data.size = 0;
-	i = 0;
 	data.all_line = NULL;
 	data.read_line = NULL;
 	while (get_next_line(fd, &data.read_line))
 	{
-		if (!(data.all_line = ft_realloc(data.all_line, ft_strlen(data.all_line), (ft_strlen(data.read_line) + 1 + ft_strlen(data.all_line)))))
-			return (NULL);
-		ft_strcat(data.all_line, data.read_line);
-		ft_strcat(data.all_line, "\n");
-	}
-	data.coord_line = ft_strsplit(data.all_line, '\n');
-	while (data.coord_line[i])
-	{
-		j = 0;
-		while (data.coord_line[j])
+		if ((data.all_line = ft_realloc(data.all_line, ft_strlen(data.all_line),
+		(ft_strlen(data.read_line) + 1 + ft_strlen(data.all_line)))))
 		{
-			
-			j++;
+			ft_strcat(data.all_line, data.read_line);
+			ft_strcat(data.all_line, "\n");
+		}
+	}
+	return (data);
+}
+
+int				get_array_size(char *all_line)
+{
+	int				i;
+	t_chk_data		chk;
+
+	printf("%s\n", all_line);
+	i = 0;
+	chk.check_space = 0;
+	chk.count_num = 0;
+	chk.check_num = 0;
+	while (all_line[i])
+	{
+		if (all_line[i] != '\n' && all_line[i] != ' ' && all_line[i] != '-'
+		&& !(ft_isdigit(all_line[i])))
+			return (0);
+		while (all_line[i] == ' ')
+		{
+			printf("here\n");
+			chk.check_space = 1;
+			i++;
+		}
+		while (ft_isdigit(all_line[i]) && (chk.check_num = 1))
+			i++;
+		if (chk.check_num)
+		{
+			chk.count_num++;
+			chk.check_num = 0;
+		}
+		if (all_line[i] == ',')
+		{
+			while (all_line[i] != ' ')
+				i++;
 		}
 		i++;
 	}
-	while (data.coord_line[data.size])
+	printf("%i\n", chk.check_space);
+	if (!chk.check_space)
+		return (0);
+	printf("%i\n", chk.count_num);
+	return (1);
+}
+
+int				**read_the_map(int fd)
+{
+	t_data	data;
+	int		i;
+	int		array_size;
+	int		**coord_arr;
+
+	i = 0;
+	data = get_all_data(fd);
+	if (!(array_size = get_array_size(data.all_line)))
+		return (0);
+	while (data.all_line[i])
 	{
-		printf("%s∆\n", data.coord_line[data.size]);
-		data.size++;
+		data.temp_size = 0;
+		if (data.all_line[i] == ',')
+		{
+			i += 3;
+			data.temp_start = i;
+			while (data.all_line[i] != ' ')
+			{
+				i++;
+				data.temp_size++;
+			}
+			if (!(data.all_line = colour_deal(data.all_line, data.temp_start - 3, i)))
+				return (NULL);
+			i -= data.temp_size + 3;
+		}
+		i++;
 	}
-	// if ((!(coord_arr = (int**)malloc(sizeof(int*)))) || (!(*coord_arr = (int*)malloc(sizeof(int) * data.size))))
-	// 	return (NULL);
-	// while (data.coord_line[i])
-	// {
-	// 	res = ft_atoi_base(data.coord_line[i]);
-	// 	printf("%i\n", res);
-	// 	i++;
-	// }
+	printf("%s\n", data.all_line);
 	return (NULL);
 }

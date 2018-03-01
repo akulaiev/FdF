@@ -12,20 +12,6 @@
 
 #include "libft.h"
 
-static char			*ft_realloc(char *line, size_t old, size_t new)
-{
-	char *temp;
-
-	if ((new == 0 || new <= old) && line)
-		return (line);
-	if (!line)
-		return (ft_memalloc(new + 1));
-	temp = (char*)malloc(new + 1);
-	ft_strcpy(temp, line);
-	free(line);
-	return (temp);
-}
-
 static int			gnl_h(const int fd, char **l, char buf[BUFF_SIZE + 1])
 {
 	char		*np;

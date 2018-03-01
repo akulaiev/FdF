@@ -32,8 +32,16 @@ typedef	struct	s_data
 	char	*read_line;
 	char	*all_line;
 	char	**coord_line;
-	int		size;
+	int		temp_start;
+	int		temp_size;
 }				t_data;
+
+typedef	struct	s_chk_data
+{
+	int		check_space;
+	int		check_num;
+	int		count_num;
+}				t_chk_data;
 
 void			set_coord(void *mlx_p, void *mlx_nw);
 void			draw_a_line(void *mlx_p, void *mlx_nw, t_minlx line);

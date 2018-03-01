@@ -36,7 +36,10 @@ int			main(int argc, char **argv)
 	}
 	fd = open(argv[1], O_RDONLY);
 	if (!(read_the_map(fd)))
+	{
+		ft_putendl("An error occured");
 		return (0);
+	}
 	// manipulate_window();
 	return(1);
 }
