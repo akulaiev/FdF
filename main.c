@@ -27,7 +27,8 @@ static void		manipulate_window()
 
 int			main(int argc, char **argv)
 {
-	int		fd;
+	int			fd;
+	t_data		data;
 	
 	if (argc != 2)
 	{
@@ -35,7 +36,8 @@ int			main(int argc, char **argv)
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
-	if (!(read_the_map(fd)))
+	data = read_the_map(fd);
+	if (!(data.error))
 	{
 		ft_putendl("An error occured");
 		return (0);
