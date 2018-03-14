@@ -15,6 +15,7 @@
 
 int		key_react(int keycode, void *param)
 {
+	param = NULL;
 	if (keycode == 53)
 		exit(0);
 	return (0);

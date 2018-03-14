@@ -21,22 +21,22 @@ LIBFT_PATH = ./libft/
 MLX = ./minilibx_macos/libmlx.a
 MLX_PATH = ./minilibx_macos/
 
-SOURCE = main.c draw_a_line.c event_handle.c get_data.c
-O_FILES = main.o draw_a_line.o event_handle.o get_data.o
+SOURCE = main.c draw_a_line.c event_handle.c get_data.c check_data.c create_array.c
+O_FILES = main.o draw_a_line.o event_handle.o get_data.o check_data.o create_array.o
 
 HEADER = -I ./fdf.h
 
 all: LIBS $(NAME) 
 
 $(NAME): $(O_FILES)
-	$(CC) $(MLX) -framework OpenGL -framework AppKit $(CC_FLAGS) -o $(NAME) $(O_FILES) $(LIBFT) # -lmlx
+	$(CC) -lmlx -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) # $(MLX)
 
 LIBS:
-	make -C $(MLX_PATH)
+	# make -C $(MLX_PATH)
 	make -C $(LIBFT_PATH)
 
 %.o: %.c
-	$(CC) $(HEADER) $(CC_FLAGS) $(SOURCE) -c $<
+	$(CC) $(HEADER) $(CFLAGS) $(SOURCE) -c $<
 
 exe:
 	./$(NAME)

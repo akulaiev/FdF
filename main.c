@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 #include <stdio.h>
-
+/*
 static void		manipulate_window()	
 {
 	void	*mlx_p;
@@ -24,7 +24,7 @@ static void		manipulate_window()
 	mlx_key_hook(mlx_nw, key_react, (void*)0);
 	mlx_loop(mlx_p);
 }
-
+*/
 int			main(int argc, char **argv)
 {
 	int			fd;

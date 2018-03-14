@@ -70,5 +70,9 @@ void			set_coord(void *mlx_p, void *mlx_nw);
 void			draw_a_line(void *mlx_p, void *mlx_nw, t_minlx line);
 int				key_react(int keycode, void *param);
 t_data			read_the_map(int fd);
+t_chk_num		get_array_size(char *no_col_line);
+void			print_arr(int **arr, int size_x, int size_y);
+int				**get_coord_array(char *line, int size_x, int size_y, int base);
+int				**get_col_array(char *line, int size_x, int size_y, int base);
 
 #endif
