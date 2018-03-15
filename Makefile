@@ -50,4 +50,7 @@ fclean: clean
 	rm -f $(NAME)
 	clear
 
+norm:
+	norminette $(SOURCE)
+
 re: fclean all

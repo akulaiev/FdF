@@ -99,4 +99,5 @@ int				*ft_range(int min, int max);
 int				get_next_line(const int fd, char **line);
 int				ft_atoi_base(const char *str, int base);
 char			*ft_realloc(char *line, size_t old, size_t new);
+void			ft_double_free(void **data, int num_lines);
 #endif

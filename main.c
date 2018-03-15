@@ -12,8 +12,9 @@
 
 #include "fdf.h"
 #include <stdio.h>
+
 /*
-static void		manipulate_window()	
+static void		manipulate_window()
 {
 	void	*mlx_p;
 	void	*mlx_nw;
@@ -25,23 +26,40 @@ static void		manipulate_window()
 	mlx_loop(mlx_p);
 }
 */
+
 int			main(int argc, char **argv)
 {
 	int			fd;
-	t_data		data;
-	
+	t_chk_num	sizes;
+	t_coords	coords;
+
 	if (argc != 2)
 	{
 		ft_putendl("usage: ./fdf 42.fdf");
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
-	data = read_the_map(fd);
-	if (!(data.error))
+	if (fd < 0)
 	{
 		ft_putendl("An error occured");
 		return (0);
 	}
+	sizes = read_the_map(fd);
+	if (!(sizes.er))
+	{
+		ft_putendl("An error occured");
+		return (0);
+	}
+	coords.coord_arr = get_coord(sizes.temp_str, sizes.count_num_first, sizes.i);
+	coords.col_arr = get_col(sizes, 0, 0);
+	if (!(coords.coord_arr) || !(coords.col_arr))
+	{
+		ft_putendl("An error occured");
+		return (0);
+	}
+	print_arr(coords.coord_arr, sizes.count_num_first, sizes.i);
+	print_arr(coords.col_arr, sizes.count_num_first, sizes.i);
 	// manipulate_window();
-	return(1);
+	system("leaks fdf");
+	return (1);
 }
