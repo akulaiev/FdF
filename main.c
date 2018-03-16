@@ -38,7 +38,7 @@ void	set_coord(t_coords src, t_minlx win)
 		j = 0;
 		while (j < src.size_x)
 		{
-			if (!win.col)
+			if (!src.col_arr[i][j])
 				win.col = 0xffffff;
 			else
 				win.col = src.col_arr[i][j];
