@@ -38,6 +38,7 @@ static t_data	get_all_data(int fd)
 		{
 			ft_strcat(data.aln, data.read_line);
 			ft_strcat(data.aln, "\n");
+			free(data.read_line);
 		}
 	}
 	return (data);

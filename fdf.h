@@ -20,10 +20,13 @@
 
 typedef	struct	s_minlx
 {
+	void	*mlx_p;
+	void	*mlx_nw;
 	int		x0;
 	int		y0;
 	int		x1;
 	int		y1;
+	int		z;
 	int		col;
 }				t_minlx;
 
@@ -54,22 +57,25 @@ typedef	struct	s_coords
 {
 	int		**coord_arr;
 	int		**col_arr;
+	int		size_x;
+	int		size_y;
 }				t_coords;
 
 typedef	struct	s_col
 {
-	char	**split_nl;
 	int		j;
 	int		j1;
 }				t_col;
 
-void			set_coord(void *mlx_p, void *mlx_nw);
-void			draw_a_line(void *mlx_p, void *mlx_nw, t_minlx line);
+void			set_coord(t_coords coords, t_minlx win);
+void			draw_a_line(t_minlx line);
 int				key_react(int keycode, void *param);
 t_chk_num		read_the_map(int fd);
 t_chk_num		get_array_size(char *no_col_line, char *all_line);
-void			print_arr(int **arr, int size_x, int size_y);
 int				**get_coord(char **split_nl, int size_x, int size_y);
 int				**get_col(t_chk_num sz, int i, int i1);
+
+
+void		print_arr(int **arr, int size_x, int size_y);
 
 #endif
