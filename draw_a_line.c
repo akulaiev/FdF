@@ -13,7 +13,7 @@
 #include "fdf.h"
 #include <stdio.h>
 
-static int		absolute(int i) // needed for the Bresenham's line algorithm
+int				absolute(int i) // needed for the Bresenham's line algorithm
 {
 	if (i < 0)
 		i *= (-1);

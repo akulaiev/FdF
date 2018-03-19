@@ -13,11 +13,6 @@
 #include "fdf.h"
 #include <stdio.h>
 
-// static int		dec_to_hex()
-// {
-
-// }	
-
 static t_minlx	manipulate_window()
 {
 	t_minlx	win;
@@ -27,35 +22,48 @@ static t_minlx	manipulate_window()
 	return (win);
 }
 
-void	set_coord(t_coords src, t_minlx win)
+void	turn(t_minlx win, double angle)
 {
-	int			i;
-	int			j;
+	printf("here\n");
+	win.x0 = absolute(win.x0 * cos(angle) + win.y0 * sin(angle));
+	// win.y0 = absolute(win.x0 * sin(angle) + win.y0 * cos(angle));
+	win.x1 = absolute(win.x1 * cos(angle) + win.y1 * sin(angle));
+	// win.y1 = absolute(win.x1 * sin(angle) + win.y1 * cos(angle));
+	draw_a_line(win);
+}
 
-	i = 0;
+void	set_coord(t_coords src, t_minlx win, int i, int j)
+{
 	while (i < src.size_y)
 	{
 		j = 0;
-		while (j < src.size_x)
+		while (j < src.size_x - 1)
 		{
 			if (!src.col_arr[i][j])
 				win.col = 0xffffff;
 			else
 				win.col = src.col_arr[i][j];
-			win.x0 = j * 10;
-			win.x1 = (j + 1) * 10;
-			win.y0 = i * 10;
-			win.y1 = i * 10;
+			win.x0 = (j * 30) + 150;
+			win.x1 = ((j + 1) * 30) + 150;
+			win.y0 = (i * 30) + 150;
+			win.y1 = (i * 30) + 150;
 			draw_a_line(win);
-			win.x0 = j * 10;
-			win.x1 = j * 10;
-			win.y0 = i * 10;
-			win.y1 = (i + 1) * 10;
+			win.z = src.coord_arr[i][j];
+			win.x0 = (j * 30) + 150;
+			win.x1 = (j * 30) + 150;
+			win.y0 = (i * 30) + 150;
+			win.y1 = ((i + 1) * 30) + 150;
 			draw_a_line(win);
 			j++;
 		}
+		win.x0 = (j * 30) + 150;
+		win.x1 = (j * 30) + 150;
+		win.y0 = (i * 30) + 150;
+		win.y1 = ((i + 1) * 30) + 150;
+		draw_a_line(win);
 		i++;
 	}
+
 }
 
 int				main(int argc, char **argv)
@@ -83,7 +91,9 @@ int				main(int argc, char **argv)
 		return (0);
 	}
 	coords.coord_arr = get_coord(sizes.temp_str, sizes.count_num_first, sizes.i);
+	printf("get_coord\n");
 	coords.col_arr = get_col(sizes, 0, 0);
+	printf("get_col\n");
 	coords.size_x = sizes.count_num_first;
 	coords.size_y = sizes.i;
 	if (!(coords.coord_arr) || !(coords.col_arr))
@@ -95,7 +105,7 @@ int				main(int argc, char **argv)
 	// print_arr(coords.col_arr, sizes.count_num_first, sizes.i);
 	win = manipulate_window();
 	mlx_key_hook(win.mlx_nw, key_react, (void*)0);
-	set_coord(coords, win);
+	set_coord(coords, win, 0, 0);
 	mlx_loop(win.mlx_p);
 	// system("leaks fdf");
 	return (1);

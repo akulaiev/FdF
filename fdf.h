@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <fcntl.h>
+# include <math.h>
 # include "./minilibx_macos/mlx.h"
 # include "./libft/libft.h"
 
@@ -67,8 +68,9 @@ typedef	struct	s_col
 	int		j1;
 }				t_col;
 
-void			set_coord(t_coords coords, t_minlx win);
+void			set_coord(t_coords src, t_minlx win, int i, int j);
 void			draw_a_line(t_minlx line);
+int				absolute(int i);
 int				key_react(int keycode, void *param);
 t_chk_num		read_the_map(int fd);
 t_chk_num		get_array_size(char *no_col_line, char *all_line);
