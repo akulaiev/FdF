@@ -56,7 +56,7 @@ static char		*no_colour(char *all_line_cp, int i)
 		{
 			i += 3;
 			temp_start = i;
-			while (all_line_cp[i] != ' ')
+			while (all_line_cp[i] != ' ' && all_line_cp[i] != '\n')
 			{
 				i++;
 				temp_size++;

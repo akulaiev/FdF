@@ -22,14 +22,33 @@ static t_minlx	manipulate_window()
 	return (win);
 }
 
-void	turn(t_minlx win, double angle)
+t_minlx	turn(t_minlx win, double angle)
 {
-	printf("here\n");
-	win.x0 = absolute(win.x0 * cos(angle) + win.y0 * sin(angle));
-	// win.y0 = absolute(win.x0 * sin(angle) + win.y0 * cos(angle));
-	win.x1 = absolute(win.x1 * cos(angle) + win.y1 * sin(angle));
-	// win.y1 = absolute(win.x1 * sin(angle) + win.y1 * cos(angle));
-	draw_a_line(win);
+	win.x0 = win.x0 * cos(angle) - win.y0 * sin(angle);
+	win.y0 = win.x0 * sin(angle) + win.y0 * cos(angle);
+	win.x1 = win.x1 * cos(angle) - win.y1 * sin(angle);
+	win.y1 = win.x1 * sin(angle) + win.y1 * cos(angle);
+	return (win);
+}
+
+t_minlx	put_line_right(t_minlx win, int i, int j)
+{
+	win.x0 = (j * 30) + 150;
+	win.x1 = ((j + 1) * 30) + 150;
+	win.y0 = (i * 30) + 150;
+	win.y1 = (i * 30) + 150;
+	win = turn(win, 0.23);
+	return (win);
+}
+
+t_minlx	put_line_down(t_minlx win, int i, int j)
+{
+	win.x0 = (j * 30) + 150;
+	win.x1 = (j * 30) + 150;
+	win.y0 = (i * 30) + 150;
+	win.y1 = ((i + 1) * 30) + 150;
+	win = turn(win, 0.23);
+	return (win);
 }
 
 void	set_coord(t_coords src, t_minlx win, int i, int j)
@@ -37,33 +56,36 @@ void	set_coord(t_coords src, t_minlx win, int i, int j)
 	while (i < src.size_y)
 	{
 		j = 0;
-		while (j < src.size_x - 1)
+		while (j < src.size_x)
 		{
 			if (!src.col_arr[i][j])
 				win.col = 0xffffff;
 			else
 				win.col = src.col_arr[i][j];
-			win.x0 = (j * 30) + 150;
-			win.x1 = ((j + 1) * 30) + 150;
-			win.y0 = (i * 30) + 150;
-			win.y1 = (i * 30) + 150;
-			draw_a_line(win);
-			win.z = src.coord_arr[i][j];
-			win.x0 = (j * 30) + 150;
-			win.x1 = (j * 30) + 150;
-			win.y0 = (i * 30) + 150;
-			win.y1 = ((i + 1) * 30) + 150;
-			draw_a_line(win);
+			if (j < src.size_x - 1)
+			{
+				win = put_line_right(win, i, j);
+				draw_a_line(win);
+			}
+			else
+			{
+				win = put_line_right(win, i, j - 1);
+				draw_a_line(win);
+			}
+			if (i < src.size_y - 1)
+			{
+				win = put_line_down(win, i, j);
+				draw_a_line(win);
+			}
+			else
+			{
+				win = put_line_down(win, i - 1, j);
+				draw_a_line(win);
+			}
 			j++;
 		}
-		win.x0 = (j * 30) + 150;
-		win.x1 = (j * 30) + 150;
-		win.y0 = (i * 30) + 150;
-		win.y1 = ((i + 1) * 30) + 150;
-		draw_a_line(win);
 		i++;
 	}
-
 }
 
 int				main(int argc, char **argv)
