@@ -29,10 +29,10 @@ HEADER = -I ./fdf.h
 all: LIBS $(NAME) 
 
 $(NAME): $(O_FILES)
-	$(CC) -lmlx -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) #  $(MLX)
+	$(CC) $(MLX) -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) #   -lmlx
 
 LIBS:
-	# make -C $(MLX_PATH)
+	make -C $(MLX_PATH)
 	make -C $(LIBFT_PATH)
 
 %.o: %.c
