@@ -85,7 +85,7 @@ t_chk_num		get_array_size(char *no_col_line, char *all_line)
 	int			check_num;
 
 	chk.temp_str = ft_strsplit(no_col_line, '\n');
-	chk.temp_col = ft_strsplit(all_line, '\n');
+	chk.tc = ft_strsplit(all_line, '\n');
 	if ((!(check_sp(chk, 0, 1))) || (!(check_lt(no_col_line, 0))))
 		chk.count_num_first = 0;
 	chk.count_num_first = count_line_num(chk.temp_str[0]);

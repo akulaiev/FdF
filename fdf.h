@@ -19,6 +19,18 @@
 # include "./minilibx_macos/mlx.h"
 # include "./libft/libft.h"
 
+typedef struct	s_breth
+{
+	int		dx;
+	int		dy;
+	int		lengthX;
+	int		lengthY;
+	int		length;
+	int		x;
+	int		y;
+	int		d;
+}				t_breth;
+
 typedef	struct	s_minlx
 {
 	void	*mlx_p;
@@ -48,7 +60,7 @@ typedef	struct	s_chk_num
 {
 	int		i;
 	char	**temp_str;
-	char	**temp_col;
+	char	**tc;
 	int		count_num_first;
 	int		count_num_temp;
 	int		er;

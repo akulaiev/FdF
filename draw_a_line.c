@@ -20,53 +20,52 @@ int				absolute(int i)
 	return (i);
 }
 
+void			pix_put_1(t_minlx line, t_breth brth)
+{
+	while (brth.length--)
+	{
+		mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
+		brth.x += brth.dx;
+		brth.d += 2 * brth.lengthY;
+		if (brth.d > 0)
+		{
+			brth.d -= 2 * brth.lengthX;
+			brth.y += brth.dy;
+		}
+	}
+}
+
+void			pix_put_2(t_minlx line, t_breth brth)
+{
+	while (brth.length--)
+	{
+		mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
+		brth.y += brth.dy;
+		brth.d += 2 * brth.lengthX;
+		if (brth.d > 0)
+		{
+			brth.d -= 2 * brth.lengthY;
+			brth.x += brth.dx;
+		}
+	}
+}
+
 void			draw_a_line(t_minlx line)
 {
-	int dx;
-	int dy;
-	int lengthX;
-	int lengthY;
-	int length;
-	int x;
-	int y;
-	int d;
+	t_breth		brth;
 
-	dx = (line.x1 - line.x0 >= 0 ? 1 : -1);
-	dy = (line.y1 - line.y0 >= 0 ? 1 : -1);
-	lengthX = abs(line.x1 - line.x0);
-	lengthY = abs(line.y1 - line.y0);
-	length = fmax((float)lengthX, (float)lengthY) + 1;
-	x = line.x0;
-	y = line.y0;
-	d = - lengthY;
-	if (length == 0)
+	brth.dx = (line.x1 - line.x0 >= 0 ? 1 : -1);
+	brth.dy = (line.y1 - line.y0 >= 0 ? 1 : -1);
+	brth.lengthX = absolute(line.x1 - line.x0);
+	brth.lengthY = absolute(line.y1 - line.y0);
+	brth.length = fmax((float)brth.lengthX, (float)brth.lengthY) + 1;
+	brth.x = line.x0;
+	brth.y = line.y0;
+	brth.d = -brth.lengthY;
+	if (brth.length == 0)
 		mlx_pixel_put(line.mlx_p, line.mlx_nw, line.x0, line.y0, line.col);
-	if (lengthY <= lengthX)
-	{
-		while(length--)
-		{
-			mlx_pixel_put(line.mlx_p, line.mlx_nw, x, y, line.col);
-			x += dx;
-			d += 2 * lengthY;
-			if (d > 0)
-			{
-				d -= 2 * lengthX;
-				y += dy;
-			}
-		}
-	}
+	if (brth.lengthY <= brth.lengthX)
+		pix_put_1(line, brth);
 	else
-	{
-		while(length--)
-		{
-			mlx_pixel_put(line.mlx_p, line.mlx_nw, x, y, line.col);
-			y += dy;
-			d += 2 * lengthX;
-			if (d > 0)
-			{
-				d -= 2 * lengthY;
-				x += dx;
-			}
-		}
-	}
+		pix_put_2(line, brth);
 }

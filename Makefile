@@ -29,7 +29,7 @@ HEADER = -I ./fdf.h
 all: LIBS $(NAME) 
 
 $(NAME): $(O_FILES)
-	$(CC) $(MLX) -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) #   -lmlx
+	$(CC) -lmlx -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) #$(MLX)
 
 LIBS:
 	make -C $(MLX_PATH)
@@ -42,7 +42,7 @@ exe:
 	./$(NAME)
 
 clean:
-	make -C $(LIBFT_PATH) clean
+	# make -C $(LIBFT_PATH) clean
 	rm -f $(O_FILES)
 
 fclean: clean
