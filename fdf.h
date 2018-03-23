@@ -19,6 +19,12 @@
 # include "./minilibx_macos/mlx.h"
 # include "./libft/libft.h"
 
+typedef struct s_dot
+{
+	int x;
+	int y;
+}				t_dot;
+
 typedef struct	s_breth
 {
 	int		dx;

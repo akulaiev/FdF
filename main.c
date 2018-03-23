@@ -22,22 +22,34 @@ static t_minlx	manipulate_window()
 	return (win);
 }
 
-t_minlx	turn(t_minlx win, double angle)
+t_dot	turn(t_dot dot, double angle)
 {
-	win.x0 = win.x0 * cos(angle) - win.y0 * sin(angle);
-	win.y0 = win.x0 * sin(angle) + win.y0 * cos(angle);
-	win.x1 = win.x1 * cos(angle) - win.y1 * sin(angle);
-	win.y1 = win.x1 * sin(angle) + win.y1 * cos(angle);
-	return (win);
+	t_dot res;
+
+	res.x = dot.x * cos(angle) - dot.y * sin(angle);
+	res.y = dot.x * sin(angle) + dot.y * cos(angle);
+	return (res);
 }
 
 t_minlx	put_line_right(t_minlx win, int i, int j)
 {
+	t_dot start;
+	t_dot end;
+
 	win.x0 = j * 30;
 	win.x1 = (j + 1) * 30;
 	win.y0 = i * 30;
 	win.y1 = i * 30;
-	win = turn(win, 0.5236);
+	start.x = win.x0;
+	start.y = win.y0;
+	end.x = win.x1;
+	end.y = win.y1;
+	start = turn(start, 1.5708);
+	end = turn(end, 1.5708);
+	win.x0 = start.x;
+	win.x1 = end.x;
+	win.y0 = start.y;
+	win.y1 = end.y;
 	win.x0 += 350;
 	win.x1 += 350;
 	win.y0 += 250;
@@ -48,11 +60,23 @@ t_minlx	put_line_right(t_minlx win, int i, int j)
 
 t_minlx	put_line_down(t_minlx win, int i, int j)
 {
+	t_dot start;
+	t_dot end;
+	
 	win.x0 = j * 30;
 	win.x1 = j * 30;
 	win.y0 = i * 30;
 	win.y1 = (i + 1) * 30;
-	win = turn(win, 0.5236);
+	start.x = win.x0;
+	start.y = win.y0;
+	end.x = win.x1;
+	end.y = win.y1;
+	start = turn(start, 1.5708);
+	end = turn(end, 1.5708);
+	win.x0 = start.x;
+	win.x1 = end.x;
+	win.y0 = start.y;
+	win.y1 = end.y;
 	win.x0 += 350;
 	win.x1 += 350;
 	win.y0 += 250;
