@@ -21,8 +21,8 @@
 
 typedef struct s_dot
 {
-	int x;
-	int y;
+	int 	x;
+	int 	y;
 }				t_dot;
 
 typedef struct	s_breth
@@ -45,7 +45,6 @@ typedef	struct	s_minlx
 	int		y0;
 	int		x1;
 	int		y1;
-	int		z;
 	int		col;
 }				t_minlx;
 

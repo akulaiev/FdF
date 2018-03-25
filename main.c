@@ -31,30 +31,49 @@ t_dot	turn(t_dot dot, double angle)
 	return (res);
 }
 
+t_dot	enlarge(t_dot dot, int size)
+{
+	t_dot res;
+
+	res.x = dot.x * size;
+	res.y = dot.y * size;
+	return (res);
+}
+
+t_dot	shift(t_dot dot, int shift_right, int shift_down)
+{
+	t_dot res;
+
+	res.x = dot.x + shift_right;
+	res.y = dot.y + shift_down;
+	return (res);
+}
+
+void	put_line(t_minlx win, t_dot start, t_dot end)
+{
+	start = enlarge(start, 25);
+	end = enlarge(end, 25);
+	start = turn(start, 2.61799);
+	end = turn(end, 2.61799);
+	start = shift(start, 600, 350);
+	end = shift(end, 600, 350);
+	win.x0 = start.x;
+	win.x1 = end.x;
+	win.y0 = start.y;
+	win.y1 = end.y;
+	draw_a_line(win);
+}
+
 t_minlx	put_line_right(t_minlx win, int i, int j)
 {
 	t_dot start;
 	t_dot end;
 
-	win.x0 = j * 30;
-	win.x1 = (j + 1) * 30;
-	win.y0 = i * 30;
-	win.y1 = i * 30;
-	start.x = win.x0;
-	start.y = win.y0;
-	end.x = win.x1;
-	end.y = win.y1;
-	start = turn(start, 1.5708);
-	end = turn(end, 1.5708);
-	win.x0 = start.x;
-	win.x1 = end.x;
-	win.y0 = start.y;
-	win.y1 = end.y;
-	win.x0 += 350;
-	win.x1 += 350;
-	win.y0 += 250;
-	win.y1 += 250;
-	draw_a_line(win);
+	start.x = j;
+	start.y = i;
+	end.x = j + 1;
+	end.y = i;
+	put_line(win, start, end);
 	return (win);
 }
 
@@ -62,26 +81,12 @@ t_minlx	put_line_down(t_minlx win, int i, int j)
 {
 	t_dot start;
 	t_dot end;
-	
-	win.x0 = j * 30;
-	win.x1 = j * 30;
-	win.y0 = i * 30;
-	win.y1 = (i + 1) * 30;
-	start.x = win.x0;
-	start.y = win.y0;
-	end.x = win.x1;
-	end.y = win.y1;
-	start = turn(start, 1.5708);
-	end = turn(end, 1.5708);
-	win.x0 = start.x;
-	win.x1 = end.x;
-	win.y0 = start.y;
-	win.y1 = end.y;
-	win.x0 += 350;
-	win.x1 += 350;
-	win.y0 += 250;
-	win.y1 += 250;
-	draw_a_line(win);
+
+	start.x = j;
+	start.y = i;
+	end.x = j;
+	end.y = i + 1;
+	put_line(win, start, end);
 	return (win);
 }
 
