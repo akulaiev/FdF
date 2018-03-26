@@ -50,20 +50,20 @@ void			pix_put_2(t_minlx line, t_breth brth)
 	}
 }
 
-void			draw_a_line(t_minlx line)
+void			draw_a_line(t_minlx line, t_dot start, t_dot end)
 {
 	t_breth		brth;
 
-	brth.dx = (line.x1 - line.x0 >= 0 ? 1 : -1);
-	brth.dy = (line.y1 - line.y0 >= 0 ? 1 : -1);
-	brth.lengthX = absolute(line.x1 - line.x0);
-	brth.lengthY = absolute(line.y1 - line.y0);
+	brth.dx = (end.x - start.x >= 0 ? 1 : -1);
+	brth.dy = (end.y - start.y >= 0 ? 1 : -1);
+	brth.lengthX = absolute(end.x - start.x);
+	brth.lengthY = absolute(end.y - start.y);
 	brth.length = fmax((float)brth.lengthX, (float)brth.lengthY) + 1;
-	brth.x = line.x0;
-	brth.y = line.y0;
+	brth.x = start.x;
+	brth.y = start.y;
 	brth.d = -brth.lengthY;
 	if (brth.length == 0)
-		mlx_pixel_put(line.mlx_p, line.mlx_nw, line.x0, line.y0, line.col);
+		mlx_pixel_put(line.mlx_p, line.mlx_nw, start.x, start.y, line.col);
 	if (brth.lengthY <= brth.lengthX)
 		pix_put_1(line, brth);
 	else

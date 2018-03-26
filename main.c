@@ -57,14 +57,23 @@ void	put_line(t_minlx win, t_dot start, t_dot end)
 	end = turn(end, 2.61799);
 	start = shift(start, 600, 350);
 	end = shift(end, 600, 350);
-	win.x0 = start.x;
-	win.x1 = end.x;
-	win.y0 = start.y;
-	win.y1 = end.y;
-	draw_a_line(win);
+	draw_a_line(win, start, end);
 }
 
-t_minlx	put_line_right(t_minlx win, int i, int j)
+void	put_line_z(t_minlx win, int i, int j, int z)
+{
+	t_dot start;
+	t_dot end;
+
+	start.x = j;
+	start.y = i;
+	end.x = j;
+	end.y = i + z;
+	put_line(win, start, end);
+	put_line_right(win, i + z, j);
+}
+
+void	put_line_right(t_minlx win, int i, int j)
 {
 	t_dot start;
 	t_dot end;
@@ -74,10 +83,9 @@ t_minlx	put_line_right(t_minlx win, int i, int j)
 	end.x = j + 1;
 	end.y = i;
 	put_line(win, start, end);
-	return (win);
 }
 
-t_minlx	put_line_down(t_minlx win, int i, int j)
+void	put_line_down(t_minlx win, int i, int j)
 {
 	t_dot start;
 	t_dot end;
@@ -87,7 +95,6 @@ t_minlx	put_line_down(t_minlx win, int i, int j)
 	end.x = j;
 	end.y = i + 1;
 	put_line(win, start, end);
-	return (win);
 }
 
 void	set_coord(t_coords src, t_minlx win, int i, int j)
@@ -102,13 +109,15 @@ void	set_coord(t_coords src, t_minlx win, int i, int j)
 			else
 				win.col = src.col_arr[i][j];
 			if (j < src.size_x - 1)
-				win = put_line_right(win, i, j);
+				put_line_right(win, i, j);
 			else
-				win = put_line_right(win, i, j - 1);
+				put_line_right(win, i, j - 1);
 			if (i < src.size_y - 1)
-				win = put_line_down(win, i, j);
+				put_line_down(win, i, j);
 			else
-				win = put_line_down(win, i - 1, j);
+				put_line_down(win, i - 1, j);
+			if (src.coord_arr[i][j])
+				put_line_z(win, i, j, src.coord_arr[i][j]);
 			j++;
 		}
 		i++;
