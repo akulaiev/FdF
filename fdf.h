@@ -23,18 +23,23 @@ typedef struct s_dot
 {
 	int 	x;
 	int 	y;
+	int		z;
 }				t_dot;
 
 typedef struct	s_breth
 {
+	int		point[3];
 	int		dx;
 	int		dy;
-	int		lengthX;
-	int		lengthY;
-	int		length;
-	int		x;
-	int		y;
-	int		d;
+	int		dz;
+	int		x_inc;
+	int		y_inc;
+	int		z_inc;
+	int		len_x;
+	int		len_y;
+	int		len_z;
+	int		err_1;
+	int		err_2;
 }				t_breth;
 
 typedef	struct	s_minlx
@@ -90,9 +95,8 @@ t_chk_num		get_array_size(char *no_col_line, char *all_line);
 int				**get_coord(char **split_nl, int size_x, int size_y);
 int				**get_col(t_chk_num sz, int i, int i1);
 
-void			put_line_right(t_minlx win, int i, int j);
-void			put_line_down(t_minlx win, int i, int j);
-void			put_line_z(t_minlx win, int i, int j, int z);
+void			put_line_right(t_minlx win, int i, int j, t_coords src);
+void			put_line_down(t_minlx win, int i, int j, t_coords src);
 void			put_line(t_minlx win, t_dot start, t_dot end);
 
 void		print_arr(int **arr, int size_x, int size_y);

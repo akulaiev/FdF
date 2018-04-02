@@ -37,6 +37,7 @@ t_dot	enlarge(t_dot dot, int size)
 
 	res.x = dot.x * size;
 	res.y = dot.y * size;
+	res.z = dot.z * size;
 	return (res);
 }
 
@@ -60,40 +61,31 @@ void	put_line(t_minlx win, t_dot start, t_dot end)
 	draw_a_line(win, start, end);
 }
 
-void	put_line_z(t_minlx win, int i, int j, int z)
+void	put_line_right(t_minlx win, int i, int j, t_coords src)
 {
 	t_dot start;
 	t_dot end;
 
 	start.x = j;
 	start.y = i;
-	end.x = j;
-	end.y = i + z;
-	put_line(win, start, end);
-	put_line_right(win, i + z, j);
-}
-
-void	put_line_right(t_minlx win, int i, int j)
-{
-	t_dot start;
-	t_dot end;
-
-	start.x = j;
-	start.y = i;
+	start.z = src.coord_arr[i][j];
 	end.x = j + 1;
 	end.y = i;
+	end.z = src.coord_arr[i][j + 1];
 	put_line(win, start, end);
 }
 
-void	put_line_down(t_minlx win, int i, int j)
+void	put_line_down(t_minlx win, int i, int j, t_coords src)
 {
 	t_dot start;
 	t_dot end;
 
 	start.x = j;
 	start.y = i;
+	start.z = src.coord_arr[i][j];
 	end.x = j;
 	end.y = i + 1;
+	end.z = src.coord_arr[i + 1][j];
 	put_line(win, start, end);
 }
 
@@ -109,15 +101,13 @@ void	set_coord(t_coords src, t_minlx win, int i, int j)
 			else
 				win.col = src.col_arr[i][j];
 			if (j < src.size_x - 1)
-				put_line_right(win, i, j);
+				put_line_right(win, i, j, src);
 			else
-				put_line_right(win, i, j - 1);
+				put_line_right(win, i, j - 1, src);
 			if (i < src.size_y - 1)
-				put_line_down(win, i, j);
+				put_line_down(win, i, j, src);
 			else
-				put_line_down(win, i - 1, j);
-			if (src.coord_arr[i][j])
-				put_line_z(win, i, j, src.coord_arr[i][j]);
+				put_line_down(win, i - 1, j, src);
 			j++;
 		}
 		i++;

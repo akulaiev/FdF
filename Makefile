@@ -21,8 +21,8 @@ LIBFT_PATH = ./libft/
 MLX = ./minilibx_macos/libmlx.a
 MLX_PATH = ./minilibx_macos/
 
-SOURCE = main.c draw_a_line.c event_handle.c get_data.c check_data.c create_array.c
-O_FILES = main.o draw_a_line.o event_handle.o get_data.o check_data.o create_array.o
+SOURCE = main1.c draw_a_line.c event_handle.c get_data.c check_data.c create_array.c
+O_FILES = main1.o draw_a_line.o event_handle.o get_data.o check_data.o create_array.o
 
 HEADER = -I ./fdf.h
 
