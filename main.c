@@ -54,10 +54,10 @@ void	put_line(t_minlx win, t_dot start, t_dot end)
 {
 	start = enlarge(start, 25);
 	end = enlarge(end, 25);
-	start = turn(start, 2.61799);
-	end = turn(end, 2.61799);
-	start = shift(start, 600, 350);
-	end = shift(end, 600, 350);
+	// start = turn(start, 2.61799);
+	// end = turn(end, 2.61799);
+	// start = shift(start, 600, 350);
+	// end = shift(end, 600, 350);
 	draw_a_line(win, start, end);
 }
 

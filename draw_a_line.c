@@ -24,7 +24,15 @@ int		absolute(int i)
 
 void	put_pix_3D(t_minlx line, int x, int y, int z)
 {
-	z = 0;
+	y = y * cos(0.2618) - x * sin(0.2618);
+	x = y * sin(0.2618) + x * cos(0.2618);
+	z = z * cos(0.2618) - y * sin(0.2618);
+	y = z * sin(0.2618) + y * cos(0.2618);
+	z = z * cos(0.2618) - x * sin(0.2618);
+	x = z * sin(0.2618) + x * cos(0.2618);
+
+    x += 50;
+    y += 150;
 	mlx_pixel_put(line.mlx_p, line.mlx_nw, x, y, line.col);
 }
 
