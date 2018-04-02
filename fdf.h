@@ -28,18 +28,24 @@ typedef struct s_dot
 
 typedef struct	s_breth
 {
-	int		point[3];
 	int		dx;
 	int		dy;
 	int		dz;
+	int		dx2;
+	int		dy2;
+	int		dz2;
+	int		lengthX;
+	int		lengthY;
+	int		lengthZ;
+	int		length;
 	int		x_inc;
 	int		y_inc;
 	int		z_inc;
-	int		len_x;
-	int		len_y;
-	int		len_z;
-	int		err_1;
-	int		err_2;
+	int		x;
+	int		y;
+	int		z;
+	int		d1;
+	int		d2;
 }				t_breth;
 
 typedef	struct	s_minlx
