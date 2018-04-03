@@ -23,7 +23,7 @@ static int	**arr_memalloc(int size_x, int size_y)
 	{
 		while (i < size_y)
 		{
-			if ((mem[i] = (int *)ft_memalloc(sizeof(int) * size_x)))
+			if ((mem[i] = (int *)malloc(sizeof(int) * size_x)))
 				i++;
 		}
 		return (mem);

@@ -22,27 +22,13 @@ int		absolute(int i)
 	// return i < 0 ? -1 * i : i;
 }
 
-void	put_pix_3D(t_minlx line, int x, int y, int z)
-{
-	y = y * cos(0.25) - x * sin(0.25);
-	x = y * sin(0.25) + x * cos(0.25);
-	z = z * cos(0.25) - y * sin(0.25);
-	y = z * sin(0.25) + y * cos(0.25);
-	z = z * cos(0.25) - x * sin(0.25);
-	x = z * sin(0.25) + x * cos(0.25);
-
-	x += 50;
-	y += 150;
-	mlx_pixel_put(line.mlx_p, line.mlx_nw, x, y, line.col);
-}
-
 void			pix_put_X(t_minlx line, t_breth brth)
 {
 	brth.d1 = brth.dy2 - brth.lengthX;
 	brth.d2 = brth.dz2 - brth.lengthX;
 	while (brth.lengthX--)
 	{
-		put_pix_3D(line, brth.x, brth.y, brth.z);
+		mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
 		if (brth.d1 > 0)
 		{
 			brth.y += brth.y_inc;
@@ -65,7 +51,7 @@ void			pix_put_Y(t_minlx line, t_breth brth)
 	brth.d2 = brth.dz2 - brth.lengthY;
 	while (brth.lengthY--)
 	{
-		put_pix_3D(line, brth.x, brth.y, brth.z);
+		mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
 		if (brth.d1 > 0)
 		{
 			brth.x += brth.x_inc;
@@ -88,7 +74,7 @@ void			pix_put_Z(t_minlx line, t_breth brth)
 	brth.d2 = brth.dx2 - brth.lengthZ;
 	while (brth.lengthZ--)
 	{
-		put_pix_3D(line, brth.x, brth.y, brth.z);
+		mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
 		if (brth.d1 > 0)
 		{
 			brth.y += brth.y_inc;
@@ -122,14 +108,14 @@ void			draw_a_line(t_minlx line, t_dot start, t_dot end)
 	brth.x = start.x;
 	brth.y = start.y;
 	brth.z = start.z;
-	brth.dx2 = brth.lengthX * 2;
-	brth.dy2 = brth.lengthY * 2;
-	brth.dz2 = brth.lengthZ * 2;
+	brth.dx2 = brth.lengthX << 1;
+	brth.dy2 = brth.lengthY << 1;
+	brth.dz2 = brth.lengthZ << 1;
 	if ((brth.lengthX >= brth.lengthY) && (brth.lengthX >= brth.lengthZ))
 		pix_put_X(line, brth);
 	else if ((brth.lengthY >= brth.lengthX) && (brth.lengthY >= brth.lengthZ))
 		pix_put_Y(line, brth);
 	else
 		pix_put_Z(line, brth);
-	put_pix_3D(line, brth.x, brth.y, brth.z);
+	mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
 }
