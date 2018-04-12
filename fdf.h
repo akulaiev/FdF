@@ -57,9 +57,13 @@ typedef	struct	s_minlx
 
 typedef	struct	s_data
 {
-	char	*read_line;
-	char	*aln;
-	char	*no_c;
+	char	**aln;
+	char	**no_c;
+	int		num_lines;
+	int		i;
+	int		count_num_first;
+	int		count_num_temp;
+	int		er;
 }				t_data;
 
 typedef	struct	s_chk_sp
@@ -68,22 +72,17 @@ typedef	struct	s_chk_sp
 	int		count_sp_temp;
 }				t_chk_sp;
 
-typedef	struct	s_chk_num
-{
-	int		i;
-	char	**temp_str;
-	char	**tc;
-	int		count_num_first;
-	int		count_num_temp;
-	int		er;
-}				t_chk_num;
-
 typedef	struct	s_coords
 {
 	int		**coord_arr;
 	int		**col_arr;
 	int		size_x;
 	int		size_y;
+	int		win_width;
+	int		win_length;
+	int		shift_right;
+	int		shift_down;
+	int		сoeff;
 }				t_coords;
 
 typedef	struct	s_col
@@ -94,16 +93,18 @@ typedef	struct	s_col
 
 void			set_coord(t_coords src, t_minlx win, int i, int j);
 void			draw_a_line(t_minlx line, t_dot start, t_dot end);
-int				absolute(int i);
 int				key_react(int keycode, void *param);
-t_chk_num		read_the_map(int fd);
-t_chk_num		get_array_size(char *no_col_line, char *all_line);
+t_data			read_the_map(int fd);
+int				get_array_size(t_data *dt);
 int				**get_coord(char **split_nl, int size_x, int size_y);
-int				**get_col(t_chk_num sz, int i, int i1);
-
+int				**get_col(t_data sz, int i, int i1);
 void			put_line_right(t_minlx win, int i, int j, t_coords src);
 void			put_line_down(t_minlx win, int i, int j, t_coords src);
-void			put_line(t_minlx win, t_dot start, t_dot end);
+void			put_line(t_coords src, t_minlx win, t_dot start, t_dot end);
+t_minlx			manipulate_window(t_coords *coords);
+t_dot			turn(t_dot dot, double angle);
+t_dot			enlarge(t_dot dot, int size);
+t_dot			centre(t_dot dot, int shift_right, int shift_down);
 
 void		print_arr(int **arr, int size_x, int size_y);
 

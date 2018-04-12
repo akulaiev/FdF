@@ -13,84 +13,100 @@
 #include "fdf.h"
 #include <stdio.h>
 
-static char		*colour_del(char *all_line_cp, int col_start, int col_end)
+static char		**ft_realloc_2d(char **line, int old)
 {
-	char	*temp_str;
+	char	**new_mem;
+	int		i;
 
-	if (!(temp_str = (char *)ft_memalloc(ft_strlen(all_line_cp))))
-		return (NULL);
-	ft_strncpy(temp_str, all_line_cp, col_start);
-	ft_strcat(temp_str, &all_line_cp[col_end]);
-	free(all_line_cp);
-	return (temp_str);
-}
-
-static t_data	get_all_data(int fd)
-{
-	t_data	data;
-
-	data.aln = NULL;
-	data.read_line = NULL;
-	while (get_next_line(fd, &data.read_line))
+	i = 0;
+	if (!line || !old)
+		return ((char**)ft_memalloc(sizeof(char*)));
+	new_mem = (char**)ft_memalloc(sizeof(char*) * old + 1);
+	while (i < old)
 	{
-		if ((data.aln = ft_realloc(data.aln, ft_strlen(data.aln),
-		(ft_strlen(data.read_line) + 1 + ft_strlen(data.aln)))))
-		{
-			ft_strcat(data.aln, data.read_line);
-			ft_strcat(data.aln, "\n");
-			free(data.read_line);
-		}
-	}
-	return (data);
-}
-
-static char		*no_colour(char *all_line_cp, int i)
-{
-	int		temp_size;
-	int		temp_start;
-
-	while (all_line_cp[i])
-	{
-		temp_size = 0;
-		if (all_line_cp[i] == ',')
-		{
-			i += 3;
-			temp_start = i;
-			while (all_line_cp[i] != ' ' && all_line_cp[i] != '\n')
-			{
-				i++;
-				temp_size++;
-			}
-			if (!(all_line_cp = colour_del(all_line_cp, temp_start - 3, i)))
-				return (NULL);
-			i -= temp_size + 3;
-		}
+		new_mem[i] = line[i];
 		i++;
 	}
-	return (all_line_cp);
+	free(line);
+	return (new_mem);
 }
 
-t_chk_num		read_the_map(int fd)
+static void		get_all_data(int fd, t_data *dt)
+{
+	char	*read_line;
+
+	read_line = NULL;
+	dt->aln = NULL;
+	dt->num_lines = 0;
+	while (get_next_line(fd, &read_line))
+	{
+		dt->aln = ft_realloc_2d(dt->aln, dt->num_lines);
+		dt->aln[dt->num_lines] = read_line;
+		dt->num_lines++;
+	}
+}
+
+char			*separate_arrays_help(char *aln, int j)
+{
+	int		k;
+	int		c_end;
+	char	*no_c;
+
+	k = 0;
+	if ((no_c = (char*)malloc(ft_strlen(aln) + 1)))
+	{
+		while (aln[j])
+		{
+			if (aln[j] == ',' && aln[j + 1] == '0'
+			&& aln[j + 2] == 'x')
+			{
+				c_end = j;
+				while (aln[c_end] != ' ' && aln[c_end])
+					c_end++;
+				j = c_end;
+			}
+			no_c[k] = aln[j];
+			j++;
+			k++;
+		}
+		no_c[k] = '\0';
+	}
+	return (no_c);
+}
+
+void			separate_arrays(t_data *dt)
+{
+	int		i;
+	int		j;
+
+	if ((dt->no_c = (char**)malloc(sizeof(char*) * dt->num_lines)))
+	{
+		i = 0;
+		while (i < dt->num_lines)
+		{
+			j = 0;
+			dt->no_c[i] = separate_arrays_help(dt->aln[i], j);
+			i++;
+		}
+	}
+}
+
+t_data			read_the_map(int fd)
 {
 	t_data		dt;
-	t_chk_num	sz;
 
-	dt = get_all_data(fd);
-	if ((!(dt.aln) || !(dt.no_c = (char *)ft_memalloc(ft_strlen(dt.aln) + 1))))
+	get_all_data(fd, &dt);
+	if ((!(dt.aln)))
 	{
-		sz.er = 0;
-		return (sz);
+		dt.er = 0;
+		return (dt);
 	}
-	ft_strcpy(dt.no_c, dt.aln);
-	dt.no_c = no_colour(dt.no_c, 0);
-	sz = get_array_size(dt.no_c, dt.aln);
-	free(dt.no_c);
-	free(dt.aln);
-	if (!(sz.i) || !(sz.count_num_first))
+	separate_arrays(&dt);
+	if ((get_array_size(&dt) != 0) || !(dt.i) || !(dt.count_num_first))
 	{
-		sz.er = 0;
-		return (sz);
+		dt.er = 0;
+		return (dt);
 	}
-	sz.er = 1;
-	return (sz);
+	dt.er = 1;
+	return (dt);
 }

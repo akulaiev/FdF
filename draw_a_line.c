@@ -13,7 +13,7 @@
 #include "fdf.h"
 #include <stdio.h>
 
-int		absolute(int i)
+static int		absolute(int i)
 {
 	if (i < 0)
 		i *= (-1);
@@ -22,7 +22,7 @@ int		absolute(int i)
 	// return i < 0 ? -1 * i : i;
 }
 
-void			pix_put_X(t_minlx line, t_breth brth)
+static void		pix_put_X(t_minlx line, t_breth brth)
 {
 	brth.d1 = brth.dy2 - brth.lengthX;
 	brth.d2 = brth.dz2 - brth.lengthX;
@@ -45,7 +45,7 @@ void			pix_put_X(t_minlx line, t_breth brth)
 	}
 }
 
-void			pix_put_Y(t_minlx line, t_breth brth)
+static void		pix_put_Y(t_minlx line, t_breth brth)
 {
 	brth.d1 = brth.dx2 - brth.lengthY;
 	brth.d2 = brth.dz2 - brth.lengthY;
@@ -68,7 +68,7 @@ void			pix_put_Y(t_minlx line, t_breth brth)
 	}
 }
 
-void			pix_put_Z(t_minlx line, t_breth brth)
+static void		pix_put_Z(t_minlx line, t_breth brth)
 {
 	brth.d1 = brth.dy2 - brth.lengthZ;
 	brth.d2 = brth.dx2 - brth.lengthZ;

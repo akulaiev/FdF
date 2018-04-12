@@ -13,59 +13,14 @@
 #include "fdf.h"
 #include <stdio.h>
 
-static t_minlx	manipulate_window(void)
+void	put_line(t_coords src, t_minlx win, t_dot start, t_dot end)
 {
-	t_minlx	win;
-
-	win.mlx_p = mlx_init();
-	win.mlx_nw = mlx_new_window(win.mlx_p, 713, 713, "test_window");
-	return (win);
-}
-
-t_dot	turn(t_dot dot, double angle)
-{
-	t_dot 	res;
-	double	cos_angle;
-	double	sin_angle;
-
-	sin_angle = sin(angle);
-	cos_angle = cos(angle);
-	res.y = dot.y * cos_angle - dot.x * sin_angle;
-	res.x = dot.y * sin_angle + dot.x * cos_angle;
-	res.z = dot.z * cos_angle - dot.y * sin_angle;
-	res.y = dot.z * sin_angle + dot.y * cos_angle;
-	res.z = dot.z * cos_angle - dot.x * sin_angle;
-	res.x = dot.z * sin_angle + dot.x * cos_angle;
-	return (res);
-}
-
-t_dot	enlarge(t_dot dot, int size)
-{
-	t_dot res;
-
-	res.x = dot.x * size;
-	res.y = dot.y * size;
-	res.z = dot.z * size;
-	return (res);
-}
-
-t_dot	shift(t_dot dot, int shift_right, int shift_down)
-{
-	t_dot res;
-
-	res.x = dot.x + shift_right;
-	res.y = dot.y + shift_down;
-	return (res);
-}
-
-void	put_line(t_minlx win, t_dot start, t_dot end)
-{
-	start = enlarge(start, 25);
-	end = enlarge(end, 25);
+	start = enlarge(start, src.сoeff);
+	end = enlarge(end, src.сoeff);
 	start = turn(start, 0.7);
 	end = turn(end, 0.7);
-	start = shift(start, 100, 350);
-	end = shift(end, 100, 350);
+	start = centre(start, src.shift_right, src.shift_down);
+	end = centre(end, src.shift_right, src.shift_down);
 	draw_a_line(win, start, end);
 }
 
@@ -80,7 +35,7 @@ void	put_line_right(t_minlx win, int i, int j, t_coords src)
 	end.x = j + 1;
 	end.y = i;
 	end.z = src.coord_arr[i][j + 1];
-	put_line(win, start, end);
+	put_line(src, win, start, end);
 }
 
 void	put_line_down(t_minlx win, int i, int j, t_coords src)
@@ -94,7 +49,7 @@ void	put_line_down(t_minlx win, int i, int j, t_coords src)
 	end.x = j;
 	end.y = i + 1;
 	end.z = src.coord_arr[i + 1][j];
-	put_line(win, start, end);
+	put_line(src, win, start, end);
 }
 
 void	set_coord(t_coords src, t_minlx win, int i, int j)
@@ -125,7 +80,7 @@ void	set_coord(t_coords src, t_minlx win, int i, int j)
 int				main(int argc, char **argv)
 {
 	int			fd;
-	t_chk_num	sz;
+	t_data		sz;
 	t_coords	coords;
 	t_minlx		win;
 
@@ -135,16 +90,18 @@ int				main(int argc, char **argv)
 	if (fd < 0)
 		return (write(2, "Error: problem with file\n", 25));
 	sz = read_the_map(fd);
-	if (!(sz.er))
+	if (!sz.er)
 		return (write(2, "Error: wrong number of params in line\n", 38));
-	coords.coord_arr = get_coord(sz.temp_str, sz.count_num_first, sz.i);
-	coords.col_arr = get_col(sz, 0, 0);
 	coords.size_x = sz.count_num_first;
 	coords.size_y = sz.i;
+	coords.coord_arr = get_coord(sz.no_c, coords.size_x, coords.size_y);
+	coords.col_arr = get_col(sz, 0, 0);
 	if (!(coords.coord_arr) || !(coords.col_arr))
 		return (write(2, "Error: problem with arrays of coords\n", 37));
-	// system("leaks fdf");
-	win = manipulate_window();
+	// print_arr(coords.col_arr, coords.size_x, coords.size_y);
+	// print_arr(coords.coord_arr, coords.size_x, coords.size_y);
+	system("leaks fdf");
+	win = manipulate_window(&coords);
 	mlx_key_hook(win.mlx_nw, key_react, (void*)0);
 	set_coord(coords, win, 0, 0);
 	mlx_loop(win.mlx_p);

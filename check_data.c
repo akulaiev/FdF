@@ -13,24 +13,24 @@
 #include "fdf.h"
 #include <stdio.h>
 
-static int		check_sp(t_chk_num chk, int i, int j)
+static int	check_sp(t_data *chk, int i, int j)
 {
 	t_chk_sp	sps;
 
 	sps.count_sp = 0;
-	while (chk.temp_str[0][j])
+	while (chk->no_c[0][j])
 	{
-		if (chk.temp_str[0][j] == ' ')
+		if (chk->no_c[0][j] == ' ')
 			sps.count_sp++;
 		j++;
 	}
-	while (chk.temp_str[i])
+	while (i < chk->num_lines)
 	{
 		j = 0;
 		sps.count_sp_temp = 0;
-		while (chk.temp_str[i][j])
+		while (j < (int)(ft_strlen(chk->no_c[i])))
 		{
-			if (chk.temp_str[i][j] == ' ')
+			if (chk->no_c[i][j] == ' ')
 				sps.count_sp_temp++;
 			j++;
 		}
@@ -41,18 +41,25 @@ static int		check_sp(t_chk_num chk, int i, int j)
 	return (sps.count_sp);
 }
 
-static int		check_lt(char *no_col_line, int i)
+static int	check_lt(t_data *chk, int i)
 {
-	while (no_col_line[i])
+	int		j;
+
+	while (i < chk->num_lines)
 	{
-		if (ft_isalpha(no_col_line[i]))
-			return (0);
+		j = 0;
+		while (j < (int)(ft_strlen(chk->no_c[i])))
+		{
+			if (ft_isalpha(chk->no_c[i][j]))
+				return (0);
+			j++;
+		}
 		i++;
 	}
 	return (1);
 }
 
-static int		count_line_num(char *temp_str)
+static int	count_line_num(char *temp_str)
 {
 	int		i;
 	int		check_num;
@@ -78,29 +85,26 @@ static int		count_line_num(char *temp_str)
 	return (count_num);
 }
 
-t_chk_num		get_array_size(char *no_col_line, char *all_line)
+int			get_array_size(t_data *dt)
 {
-	t_chk_num	chk;
 	int			j;
 	int			check_num;
 
-	chk.temp_str = ft_strsplit(no_col_line, '\n');
-	chk.tc = ft_strsplit(all_line, '\n');
-	if ((!(check_sp(chk, 0, 1))) || (!(check_lt(no_col_line, 0))))
-		chk.count_num_first = 0;
-	chk.count_num_first = count_line_num(chk.temp_str[0]);
-	chk.i = 1;
+	if ((!(check_sp(dt, 0, 1))) || (!(check_lt(dt, 0))))
+		dt->count_num_first = 0;
+	dt->count_num_first = count_line_num(dt->no_c[0]);
+	dt->i = 1;
 	check_num = 0;
 	j = 0;
-	while (chk.temp_str[chk.i])
+	while (dt->i < dt->num_lines)
 	{
-		chk.count_num_temp = count_line_num(chk.temp_str[chk.i]);
-		if (chk.count_num_first != chk.count_num_temp)
+		dt->count_num_temp = count_line_num(dt->no_c[dt->i]);
+		if (dt->count_num_first != dt->count_num_temp)
 		{
-			chk.count_num_first = 0;
-			return (chk);
+			dt->count_num_first = 0;
+			return (1);
 		}
-		chk.i++;
+		dt->i++;
 	}
-	return (chk);
+	return (0);
 }

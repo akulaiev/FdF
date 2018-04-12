@@ -31,32 +31,31 @@ static int	**arr_memalloc(int size_x, int size_y)
 	return (NULL);
 }
 
-int			**get_col(t_chk_num sz, int i, int i1)
+int			**get_col(t_data sz, int i, int i1)
 {
 	int		**col_arr;
 	t_col	c;
 
 	if (!(col_arr = arr_memalloc(sz.count_num_first, sz.i)))
 		return (NULL);
-	while (i1 < sz.i && sz.tc[i])
+	while (i1 < sz.i && sz.aln[i])
 	{
 		c.j = 0;
 		c.j1 = 0;
-		while (c.j1 < sz.count_num_first && sz.tc[i][c.j])
+		while (c.j1 < sz.count_num_first && sz.aln[i][c.j])
 		{
-			while (sz.tc[i][c.j] != ' ' && sz.tc[i][c.j] != 'x'
-			&& sz.tc[i][c.j] != '\n')
+			while (sz.aln[i][c.j] != ' ' && sz.aln[i][c.j] != 'x')
 				c.j++;
-			sz.tc[i][c.j] == ' ' ? col_arr[i1][c.j1] = 0 : 0;
-			if (sz.tc[i][c.j] == 'x')
-				col_arr[i1][c.j1] = ft_atoi_base(&sz.tc[i][c.j + 1], 16);
+			sz.aln[i][c.j] == ' ' ? col_arr[i1][c.j1] = 0 : 0;
+			if (sz.aln[i][c.j] == 'x')
+				col_arr[i1][c.j1] = ft_atoi_base(&sz.aln[i][c.j + 1], 16);
 			c.j++;
 			c.j1++;
 		}
 		i++;
 		i1++;
 	}
-	ft_double_free((void**)sz.tc, sz.i);
+	ft_double_free((void**)sz.aln, sz.i);
 	return (col_arr);
 }
 
@@ -76,7 +75,7 @@ int			**get_coord(char **split_nl, int size_x, int size_y)
 		j = 0;
 		while (j < size_x)
 		{
-			coord_arr[i][j] = ft_atoi_base(temp_arr[j], 10);
+			coord_arr[i][j] = ft_atoi(temp_arr[j]);
 			j++;
 		}
 		ft_double_free((void**)temp_arr, size_x);
