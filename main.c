@@ -100,7 +100,7 @@ int				main(int argc, char **argv)
 		return (write(2, "Error: problem with arrays of coords\n", 37));
 	// print_arr(coords.col_arr, coords.size_x, coords.size_y);
 	// print_arr(coords.coord_arr, coords.size_x, coords.size_y);
-	system("leaks fdf");
+	// system("leaks fdf");
 	win = manipulate_window(&coords);
 	mlx_key_hook(win.mlx_nw, key_react, (void*)0);
 	set_coord(coords, win, 0, 0);
