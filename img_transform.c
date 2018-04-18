@@ -13,20 +13,13 @@
 #include "fdf.h"
 #include <stdio.h>
 
-t_minlx	manipulate_window(t_coords *coords)
+void	manipulate_window(t_coords *coords)
 {
-	t_minlx	win;
 	int		diagonal;
 	int		win_diagonal;
 	int		small_diagonal;
 	int		mid_diagonal;
 	int		max_diagonal;
-	int		small_width;
-	int		small_length;
-	int		mid_width;
-	int		mid_length;
-	int		max_width;
-	int		max_length;
 	int		max_z;
 	int		temp;
 	int		i;
@@ -50,32 +43,26 @@ t_minlx	manipulate_window(t_coords *coords)
 		i++;
 	}
 	diagonal = sqrt((coords->size_x * coords->size_x) + (coords->size_y * coords->size_y) + (max_z * max_z));
-	small_width = 550;
-	small_length = 550;
-	mid_width = 1250;
-	mid_length = 1250;
-	max_width = 2500;
-	max_length = 1500;
-	small_diagonal = sqrt((small_width * small_width) + (small_length * small_length));
-	mid_diagonal = sqrt((mid_width * mid_width) + (mid_length * mid_length));
-	max_diagonal = sqrt((max_width * max_width) + (max_length * max_length));
+	small_diagonal = sqrt((750 * 750) + (750 * 750));
+	mid_diagonal = sqrt((1250 * 1250) + (1250 * 1250));
+	max_diagonal = sqrt((2500 * 2500) + (1500 * 1500));
 	if (diagonal < 100)
 	{
-		coords->win_width = small_width;
-		coords->win_length = small_length;
+		coords->win_width = 750;
+		coords->win_length = 750;
 		win_diagonal = small_diagonal;
 
 	}
 	else if (diagonal > 100 && diagonal < 400)
 	{
-		coords->win_width = mid_width;
-		coords->win_length = mid_length;
+		coords->win_width = 1250;
+		coords->win_length = 1250;
 		win_diagonal = mid_diagonal;
 	}
 	else
 	{
-		coords->win_width = max_width;
-		coords->win_length = max_length;
+		coords->win_width = 2500;
+		coords->win_length = 1500;
 		win_diagonal = max_diagonal;
 	}
 	coords->сoeff = 1;
@@ -85,18 +72,8 @@ t_minlx	manipulate_window(t_coords *coords)
 	coords->shift_right = (coords->win_width / 2) - ((coords->size_x * coords->сoeff) / 2);
 	coords->shift_down = (coords->win_length / 2) - ((coords->size_y * coords->сoeff) / 2);
 
-	// coords->shift_right = 150;
-	// coords->shift_down = 300;
-
-	// coords->shift_right = (coords->win_width / 2) - (coords->size_x / 2);
-	// coords->shift_down = (coords->win_length / 2) - (coords->size_y / 2);
-
-	printf("%i %i\n", (coords->size_x * coords->сoeff) / 2, (coords->size_y * coords->сoeff) / 2);
-	printf("%i %i\n", coords->win_width / 2, coords->win_length / 2);
-
-	win.mlx_p = mlx_init();
-	win.mlx_nw = mlx_new_window(win.mlx_p, coords->win_width, coords->win_length, "test");
-	return (win);
+	coords->mlx_p = mlx_init();
+	coords->mlx_nw = mlx_new_window(coords->mlx_p, coords->win_width, coords->win_length, "test");
 }
 
 t_dot	turn(t_dot dot, double angle)
@@ -126,7 +103,7 @@ t_dot	enlarge(t_dot dot, int size)
 	return (res);
 }
 
-t_dot	centre(t_dot dot, int shift_right, int shift_down)
+t_dot	move(t_dot dot, int shift_right, int shift_down)
 {
 	t_dot res;
 

@@ -22,7 +22,7 @@ static int		absolute(int i)
 	// return i < 0 ? -1 * i : i;
 }
 
-static void		pix_put_X(t_minlx line, t_breth brth)
+static void		pix_put_X(t_coords line, t_breth brth)
 {
 	brth.d1 = brth.dy2 - brth.lengthX;
 	brth.d2 = brth.dz2 - brth.lengthX;
@@ -45,7 +45,7 @@ static void		pix_put_X(t_minlx line, t_breth brth)
 	}
 }
 
-static void		pix_put_Y(t_minlx line, t_breth brth)
+static void		pix_put_Y(t_coords line, t_breth brth)
 {
 	brth.d1 = brth.dx2 - brth.lengthY;
 	brth.d2 = brth.dz2 - brth.lengthY;
@@ -68,7 +68,7 @@ static void		pix_put_Y(t_minlx line, t_breth brth)
 	}
 }
 
-static void		pix_put_Z(t_minlx line, t_breth brth)
+static void		pix_put_Z(t_coords line, t_breth brth)
 {
 	brth.d1 = brth.dy2 - brth.lengthZ;
 	brth.d2 = brth.dx2 - brth.lengthZ;
@@ -91,7 +91,7 @@ static void		pix_put_Z(t_minlx line, t_breth brth)
 	}
 }
 
-void			draw_a_line(t_minlx line, t_dot start, t_dot end)
+void			draw_a_line(t_coords line, t_dot start, t_dot end)
 {
 	t_breth	 brth;
 

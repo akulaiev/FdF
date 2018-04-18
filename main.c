@@ -13,18 +13,18 @@
 #include "fdf.h"
 #include <stdio.h>
 
-void	put_line(t_coords src, t_minlx win, t_dot start, t_dot end)
+void	put_line(t_coords src, t_dot start, t_dot end)
 {
 	start = enlarge(start, src.сoeff);
 	end = enlarge(end, src.сoeff);
 	start = turn(start, 0.7);
 	end = turn(end, 0.7);
-	start = centre(start, src.shift_right, src.shift_down);
-	end = centre(end, src.shift_right, src.shift_down);
-	draw_a_line(win, start, end);
+	start = move(start, src.shift_right, src.shift_down);
+	end = move(end, src.shift_right, src.shift_down);
+	draw_a_line(src, start, end);
 }
 
-void	put_line_right(t_minlx win, int i, int j, t_coords src)
+void	put_line_right(int i, int j, t_coords src)
 {
 	t_dot start;
 	t_dot end;
@@ -35,24 +35,24 @@ void	put_line_right(t_minlx win, int i, int j, t_coords src)
 	end.x = j + 1;
 	end.y = i;
 	end.z = src.coord_arr[i][j + 1];
-	put_line(src, win, start, end);
+	put_line(src, start, end);
 }
 
-void	put_line_down(t_minlx win, int i, int j, t_coords src)
+void	put_line_down(int i, int j, t_coords src)
 {
 	t_dot start;
 	t_dot end;
-
+	
 	start.x = j;
 	start.y = i;
 	start.z = src.coord_arr[i][j];
 	end.x = j;
 	end.y = i + 1;
 	end.z = src.coord_arr[i + 1][j];
-	put_line(src, win, start, end);
+	put_line(src, start, end);
 }
 
-void	set_coord(t_coords src, t_minlx win, int i, int j)
+void	set_coord(t_coords src, int i, int j)
 {
 	while (i < src.size_y)
 	{
@@ -60,17 +60,17 @@ void	set_coord(t_coords src, t_minlx win, int i, int j)
 		while (j < src.size_x)
 		{
 			if (!src.col_arr[i][j])
-				win.col = 0xffffff;
+				src.col = 0xffffff;
 			else
-				win.col = src.col_arr[i][j];
+				src.col = src.col_arr[i][j];
 			if (j < src.size_x - 1)
-				put_line_right(win, i, j, src);
+				put_line_right(i, j, src);
 			else
-				put_line_right(win, i, j - 1, src);
+				put_line_right(i, j - 1, src);
 			if (i < src.size_y - 1)
-				put_line_down(win, i, j, src);
+				put_line_down(i, j, src);
 			else
-				put_line_down(win, i - 1, j, src);
+				put_line_down(i - 1, j, src);
 			j++;
 		}
 		i++;
@@ -82,7 +82,6 @@ int				main(int argc, char **argv)
 	int			fd;
 	t_data		sz;
 	t_coords	coords;
-	t_minlx		win;
 
 	if (argc != 2)
 		return (write(2, "Error: no argument\n", 19));
@@ -101,9 +100,9 @@ int				main(int argc, char **argv)
 	// print_arr(coords.col_arr, coords.size_x, coords.size_y);
 	// print_arr(coords.coord_arr, coords.size_x, coords.size_y);
 	// system("leaks fdf");
-	win = manipulate_window(&coords);
-	mlx_key_hook(win.mlx_nw, key_react, (void*)0);
-	set_coord(coords, win, 0, 0);
-	mlx_loop(win.mlx_p);
+	manipulate_window(&coords);
+	mlx_key_hook(coords.mlx_nw, key_react, (void*)&coords);
+	set_coord(coords, 0, 0);
+	mlx_loop(coords.mlx_p);
 	return (0);
 }

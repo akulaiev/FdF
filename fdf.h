@@ -48,13 +48,6 @@ typedef struct	s_breth
 	int		d2;
 }				t_breth;
 
-typedef	struct	s_minlx
-{
-	void	*mlx_p;
-	void	*mlx_nw;
-	int		col;
-}				t_minlx;
-
 typedef	struct	s_data
 {
 	char	**aln;
@@ -83,6 +76,9 @@ typedef	struct	s_coords
 	int		shift_right;
 	int		shift_down;
 	int		сoeff;
+	void	*mlx_p;
+	void	*mlx_nw;
+	int		col;
 }				t_coords;
 
 typedef	struct	s_col
@@ -91,20 +87,20 @@ typedef	struct	s_col
 	int		j1;
 }				t_col;
 
-void			set_coord(t_coords src, t_minlx win, int i, int j);
-void			draw_a_line(t_minlx line, t_dot start, t_dot end);
+void			set_coord(t_coords src, int i, int j);
+void			draw_a_line(t_coords line, t_dot start, t_dot end);
 int				key_react(int keycode, void *param);
 t_data			read_the_map(int fd);
 int				get_array_size(t_data *dt);
 int				**get_coord(char **split_nl, int size_x, int size_y);
 int				**get_col(t_data sz, int i, int i1);
-void			put_line_right(t_minlx win, int i, int j, t_coords src);
-void			put_line_down(t_minlx win, int i, int j, t_coords src);
-void			put_line(t_coords src, t_minlx win, t_dot start, t_dot end);
-t_minlx			manipulate_window(t_coords *coords);
+void			put_line_right(int i, int j, t_coords src);
+void			put_line_down(int i, int j, t_coords src);
+void			put_line(t_coords src, t_dot start, t_dot end);
+void			manipulate_window(t_coords *coords);
 t_dot			turn(t_dot dot, double angle);
 t_dot			enlarge(t_dot dot, int size);
-t_dot			centre(t_dot dot, int shift_right, int shift_down);
+t_dot			move(t_dot dot, int shift_right, int shift_down);
 
 void		print_arr(int **arr, int size_x, int size_y);
 
