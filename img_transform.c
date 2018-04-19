@@ -15,55 +15,27 @@
 
 void	manipulate_window(t_coords *coords)
 {
-	int		diagonal;
 	int		win_diagonal;
-	int		small_diagonal;
-	int		mid_diagonal;
-	int		max_diagonal;
-	int		max_z;
-	int		temp;
-	int		i;
-	int		j;
+	int		diagonal;
 	
-	i = 0;
-	max_z = 0;
-	while (i < coords->size_y)
-	{
-		j = 0;
-		while (j < coords->size_x)
-		{
-			if (abs(coords->coord_arr[i][j]) > abs(coords->coord_arr[i][j + 1]))
-			{
-				temp = abs(coords->coord_arr[i][j]);
-				if (temp > max_z)
-					max_z = temp;
-			}
-			j++;
-		}
-		i++;
-	}
-	diagonal = sqrt((coords->size_x * coords->size_x) + (coords->size_y * coords->size_y) + (max_z * max_z));
-	small_diagonal = sqrt((750 * 750) + (750 * 750));
-	mid_diagonal = sqrt((1250 * 1250) + (1250 * 1250));
-	max_diagonal = sqrt((2500 * 2500) + (1500 * 1500));
+	diagonal = count_diagonal(coords);
 	if (diagonal < 100)
 	{
 		coords->win_width = 750;
 		coords->win_length = 750;
-		win_diagonal = small_diagonal;
-
+		win_diagonal = sqrt((750 * 750) + (750 * 750));
 	}
 	else if (diagonal > 100 && diagonal < 400)
 	{
 		coords->win_width = 1250;
 		coords->win_length = 1250;
-		win_diagonal = mid_diagonal;
+		win_diagonal = sqrt((1250 * 1250) + (1250 * 1250));
 	}
 	else
 	{
 		coords->win_width = 2500;
 		coords->win_length = 1500;
-		win_diagonal = max_diagonal;
+		win_diagonal = sqrt((2500 * 2500) + (1500 * 1500));
 	}
 	coords->сoeff = 1;
 	while (diagonal * coords->сoeff < (win_diagonal / 1.5))
@@ -75,6 +47,37 @@ void	manipulate_window(t_coords *coords)
 	coords->mlx_p = mlx_init();
 	coords->mlx_nw = mlx_new_window(coords->mlx_p, coords->win_width, coords->win_length, "test");
 }
+
+int		count_diagonal(t_coords *c)
+{
+	int		z;
+	int		d;
+	int		temp;
+	int		i;
+	int		j;
+
+	i = 0;
+	z = 0;
+	while (i < c->size_y)
+	{
+		j = 0;
+		while (j < c->size_x)
+		{
+			if (abs(c->coord_arr[i][j]) > abs(c->coord_arr[i][j + 1]))
+			{
+				temp = abs(c->coord_arr[i][j]);
+				if (temp > z)
+					z = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+	d = sqrt((c->size_x * c->size_x) + (c->size_y * c->size_y) + (z * z));
+	return(d);
+}
+
+int		count_win_diagonal(t_coords *c)
 
 t_dot	turn(t_dot dot, double angle)
 {
