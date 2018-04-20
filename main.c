@@ -17,8 +17,12 @@ void	put_line(t_coords src, t_dot start, t_dot end)
 {
 	start = enlarge(start, src.сoeff);
 	end = enlarge(end, src.сoeff);
-	start = turn(start, 0.7);
-	end = turn(end, 0.7);
+	start = turn_x(start, src.angle_x);
+	end = turn_x(end, src.angle_x);
+	start = turn_y(start, src.angle_y);
+	end = turn_y(end, src.angle_y);
+	start = turn_z(start, src.angle_z);
+	end = turn_z(end, src.angle_z);
 	start = move(start, src.shift_right, src.shift_down);
 	end = move(end, src.shift_right, src.shift_down);
 	draw_a_line(src, start, end);
@@ -97,6 +101,8 @@ int				main(int argc, char **argv)
 	coords.col_arr = get_col(sz, 0, 0);
 	if (!(coords.coord_arr) || !(coords.col_arr))
 		return (write(2, "Error: problem with arrays of coords\n", 37));
+	ft_putendl("Hi! Enjoy exploring my FdF project. Use '+' and '-' to scale the picture,\
+arrows to move it around and 'w', 's', 'a', 'd', 'q', 'e' for rotations.");
 	// print_arr(coords.col_arr, coords.size_x, coords.size_y);
 	// print_arr(coords.coord_arr, coords.size_x, coords.size_y);
 	// system("leaks fdf");

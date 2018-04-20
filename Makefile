@@ -22,9 +22,9 @@ MLX = ./minilibx_macos/libmlx.a
 MLX_PATH = ./minilibx_macos/
 
 SOURCE = main.c draw_a_line.c event_handle.c get_data.c check_data.c \
-create_array.c img_transform.c
+create_array.c img_transform.c img_transform_help.c
 O_FILES = main.o draw_a_line.o event_handle.o get_data.o check_data.o \
-create_array.o img_transform.o
+create_array.o img_transform.o img_transform_help.o
 
 HEADER = -I ./fdf.h
 
