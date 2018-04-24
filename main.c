@@ -63,9 +63,9 @@ void	set_coord(t_coords src, int i, int j)
 		j = 0;
 		while (j < src.size_x)
 		{
-			if (!src.col_arr[i][j])
-				src.col = 0xffffff;
-			else
+			// if (!src.col_arr[i][j])
+			// 	src.col = 0xffffff;
+			// else
 				src.col = src.col_arr[i][j];
 			if (j < src.size_x - 1)
 				put_line_right(i, j, src);

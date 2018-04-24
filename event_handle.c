@@ -15,7 +15,6 @@
 
 int		key_react(int keycode, void *param)
 {
-	printf("%i\n", keycode);
 	if (keycode == 53)
 		exit(0);
 	if (keycode <= 126 && keycode >= 123)

@@ -46,7 +46,7 @@ int			**get_col(t_data sz, int i, int i1)
 		{
 			while (sz.aln[i][c.j] != ' ' && sz.aln[i][c.j] != 'x')
 				c.j++;
-			sz.aln[i][c.j] == ' ' ? col_arr[i1][c.j1] = 0 : 0;
+			sz.aln[i][c.j] == ' ' ? col_arr[i1][c.j1] = 0xffffff : 0;
 			if (sz.aln[i][c.j] == 'x')
 				col_arr[i1][c.j1] = ft_atoi_base(&sz.aln[i][c.j + 1], 16);
 			c.j++;

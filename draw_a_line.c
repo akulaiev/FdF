@@ -13,16 +13,9 @@
 #include "fdf.h"
 #include <stdio.h>
 
-static int		absolute(int i)
-{
-	if (i < 0)
-		i *= (-1);
-	return (i);
+static int		gradient(int col)
 
-	// return i < 0 ? -1 * i : i;
-}
-
-static void		pix_put_X(t_coords line, t_breth brth)
+static void		pix_put_x(t_coords line, t_breth brth)
 {
 	brth.d1 = brth.dy2 - brth.lengthX;
 	brth.d2 = brth.dz2 - brth.lengthX;
@@ -45,7 +38,7 @@ static void		pix_put_X(t_coords line, t_breth brth)
 	}
 }
 
-static void		pix_put_Y(t_coords line, t_breth brth)
+static void		pix_put_y(t_coords line, t_breth brth)
 {
 	brth.d1 = brth.dx2 - brth.lengthY;
 	brth.d2 = brth.dz2 - brth.lengthY;
@@ -68,7 +61,7 @@ static void		pix_put_Y(t_coords line, t_breth brth)
 	}
 }
 
-static void		pix_put_Z(t_coords line, t_breth brth)
+static void		pix_put_z(t_coords line, t_breth brth)
 {
 	brth.d1 = brth.dy2 - brth.lengthZ;
 	brth.d2 = brth.dx2 - brth.lengthZ;
@@ -93,14 +86,14 @@ static void		pix_put_Z(t_coords line, t_breth brth)
 
 void			draw_a_line(t_coords line, t_dot start, t_dot end)
 {
-	t_breth	 brth;
+	t_breth		brth;
 
 	brth.dx = end.x - start.x;
 	brth.dy = end.y - start.y;
 	brth.dz = end.z - start.z;
-	brth.lengthX = absolute(brth.dx);
-	brth.lengthY = absolute(brth.dy);
-	brth.lengthZ = absolute(brth.dz);
+	brth.lengthX = abs(brth.dx);
+	brth.lengthY = abs(brth.dy);
+	brth.lengthZ = abs(brth.dz);
 	brth.x_inc = (brth.dx < 0) ? -1 : 1;
 	brth.y_inc = (brth.dy < 0) ? -1 : 1;
 	brth.z_inc = (brth.dz < 0) ? -1 : 1;
@@ -112,10 +105,10 @@ void			draw_a_line(t_coords line, t_dot start, t_dot end)
 	brth.dy2 = brth.lengthY << 1;
 	brth.dz2 = brth.lengthZ << 1;
 	if ((brth.lengthX >= brth.lengthY) && (brth.lengthX >= brth.lengthZ))
-		pix_put_X(line, brth);
+		pix_put_x(line, brth);
 	else if ((brth.lengthY >= brth.lengthX) && (brth.lengthY >= brth.lengthZ))
-		pix_put_Y(line, brth);
+		pix_put_y(line, brth);
 	else
-		pix_put_Z(line, brth);
+		pix_put_z(line, brth);
 	mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
 }
