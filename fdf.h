@@ -24,6 +24,7 @@ typedef struct s_dot
 	int 	x;
 	int 	y;
 	int		z;
+	int		col;
 }				t_dot;
 
 typedef struct	s_breth

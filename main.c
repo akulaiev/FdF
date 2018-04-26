@@ -36,9 +36,11 @@ void	put_line_right(int i, int j, t_coords src)
 	start.x = j;
 	start.y = i;
 	start.z = src.coord_arr[i][j];
+	start.col = src.col_arr[i][j];
 	end.x = j + 1;
 	end.y = i;
 	end.z = src.coord_arr[i][j + 1];
+	end.col = src.col_arr[i][j + 1];
 	put_line(src, start, end);
 }
 
@@ -50,9 +52,11 @@ void	put_line_down(int i, int j, t_coords src)
 	start.x = j;
 	start.y = i;
 	start.z = src.coord_arr[i][j];
+	start.col = src.col_arr[i][j];
 	end.x = j;
 	end.y = i + 1;
 	end.z = src.coord_arr[i + 1][j];
+	end.col = src.col_arr[i + 1][j];
 	put_line(src, start, end);
 }
 
@@ -66,7 +70,7 @@ void	set_coord(t_coords src, int i, int j)
 			// if (!src.col_arr[i][j])
 			// 	src.col = 0xffffff;
 			// else
-				src.col = src.col_arr[i][j];
+				// src.col = src.col_arr[i][j];
 			if (j < src.size_x - 1)
 				put_line_right(i, j, src);
 			else

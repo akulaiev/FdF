@@ -24,6 +24,7 @@ t_dot	turn_x(t_dot dot, double angle)
 	res.x = dot.x;
 	res.y = dot.y * cos_angle + dot.z * sin_angle;
 	res.z = -dot.y * sin_angle + dot.z * cos_angle;
+	res.col = dot.col;
 	return (res);
 }
 
@@ -38,6 +39,7 @@ t_dot	turn_y(t_dot dot, double angle)
 	res.x = dot.x * cos_angle + dot.z * sin_angle;
 	res.y = dot.y;
 	res.z = -dot.x * sin_angle + dot.z * cos_angle;
+	res.col = dot.col;
 	return (res);
 }
 
@@ -52,6 +54,7 @@ t_dot	turn_z(t_dot dot, double angle)
 	res.x = dot.x * cos_angle - dot.y * sin_angle;
 	res.y = dot.x * sin_angle + dot.y * cos_angle;
 	res.z = dot.z * cos_angle - dot.x * sin_angle;
+	res.col = dot.col;
 	return (res);
 }
 
@@ -62,6 +65,7 @@ t_dot	enlarge(t_dot dot, int size)
 	res.x = dot.x * size;
 	res.y = dot.y * size;
 	res.z = dot.z * size;
+	res.col = dot.col;
 	return (res);
 }
 
@@ -71,5 +75,6 @@ t_dot	move(t_dot dot, int shift_right, int shift_down)
 
 	res.x = dot.x + shift_right;
 	res.y = dot.y + shift_down;
+	res.col = dot.col;
 	return (res);
 }
