@@ -67,10 +67,6 @@ void	set_coord(t_coords src, int i, int j)
 		j = 0;
 		while (j < src.size_x)
 		{
-			// if (!src.col_arr[i][j])
-			// 	src.col = 0xffffff;
-			// else
-				// src.col = src.col_arr[i][j];
 			if (j < src.size_x - 1)
 				put_line_right(i, j, src);
 			else
@@ -102,7 +98,7 @@ int				main(int argc, char **argv)
 	coords.size_x = sz.count_num_first;
 	coords.size_y = sz.i;
 	coords.coord_arr = get_coord(sz.no_c, coords.size_x, coords.size_y);
-	coords.col_arr = get_col(sz, 0, 0);
+	coords.col_arr = get_col(sz, 0);
 	if (!(coords.coord_arr) || !(coords.col_arr))
 		return (write(2, "Error: problem with arrays of coords\n", 37));
 	ft_putendl("Hi! Enjoy exploring my FdF project. Use '+' and '-' to scale the picture,\

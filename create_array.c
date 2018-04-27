@@ -31,32 +31,33 @@ static int	**arr_memalloc(int size_x, int size_y)
 	return (NULL);
 }
 
-int			**get_col(t_data sz, int i, int i1)
+int			**get_col(t_data sz, int i)
 {
-	int		**col_arr;
 	t_col	c;
 
-	if (!(col_arr = arr_memalloc(sz.count_num_first, sz.i)))
+	if (!(c.col_arr = arr_memalloc(sz.count_num_first, sz.i)))
 		return (NULL);
-	while (i1 < sz.i && sz.aln[i])
+	while (i < sz.i)
 	{
-		c.j = 0;
-		c.j1 = 0;
-		while (c.j1 < sz.count_num_first && sz.aln[i][c.j])
+		c.temp = ft_strsplit(sz.aln[i], ' ');
+		c.x = 0;
+		while (c.temp[c.x])
 		{
-			while (sz.aln[i][c.j] != ' ' && sz.aln[i][c.j] != 'x')
-				c.j++;
-			sz.aln[i][c.j] == ' ' ? col_arr[i1][c.j1] = 0xffffff : 0;
-			if (sz.aln[i][c.j] == 'x')
-				col_arr[i1][c.j1] = ft_atoi_base(&sz.aln[i][c.j + 1], 16);
-			c.j++;
-			c.j1++;
+			c.y = 0;
+			c.check = 0;
+			while (c.temp[c.x][c.y])
+			{
+				if (c.temp[c.x][c.y] == 'x' && (c.check = 1))
+					c.col_arr[i][c.x] = ft_atoi_base(&c.temp[c.x][c.y + 1], 16);
+				c.y++;
+			}
+			c.check == 0 ? c.col_arr[i][c.x] = 0xffffff : 0;
+			c.x++;
 		}
+		ft_double_free((void**)c.temp, sz.count_num_first);
 		i++;
-		i1++;
 	}
-	ft_double_free((void**)sz.aln, sz.i);
-	return (col_arr);
+	return (c.col_arr);
 }
 
 int			**get_coord(char **split_nl, int size_x, int size_y)
@@ -96,7 +97,7 @@ void		print_arr(int **arr, int size_x, int size_y)
 		j = 0;
 		while (j < size_x)
 		{
-			printf("%i ", arr[i][j]);
+			printf("%#x ", arr[i][j]);
 			j++;
 		}
 		printf("\n");

@@ -13,9 +13,8 @@
 #include "fdf.h"
 #include <stdio.h>
 
-static int		gradient(int col_one, int col_two, int line_len, int pix_dist)
+static int		gradient(int col_start, int col_end, int line_len, int pix_dist)
 {
-	// (A1-(A1-B1)/h*x, A2-(A2-B2)/h*x, A3-(A3-B3)/h*x)
 	int		start_r;
 	int		start_g;
 	int		start_b;
@@ -26,28 +25,25 @@ static int		gradient(int col_one, int col_two, int line_len, int pix_dist)
 	int		res_g;
 	int		res_b;
 	int		res_col;
-	int		col_start;
-	int		col_end;
 
-	if (col_one <= col_two)
-	{
-		col_start = col_one;
-		col_end = col_two;
-	}
-	else
-	{
-		col_start = col_two;
-		col_end = col_one;
-	}
 	start_r = (col_start >> 16) & 255;
 	start_g = (col_start >> 8) & 255;
 	start_b = col_start & 255;
 	end_r = (col_end >> 16) & 255;
 	end_g = (col_end >> 8) & 255;
 	end_b = col_end & 256;
-	res_r = start_r - (start_r - end_r) / line_len * pix_dist;
-	res_g = start_g - (start_g - end_g) / line_len * pix_dist;
-	res_b = start_b - (start_b - end_b) / line_len * pix_dist;
+	if (col_start > col_end)
+	{
+		res_r = start_r - (start_r - end_r) / line_len * pix_dist;
+		res_g = start_g - (start_g - end_g) / line_len * pix_dist;
+		res_b = start_b - (start_b - end_b) / line_len * pix_dist;
+	}
+	else
+	{
+		res_r = start_r + (end_r - start_r) / line_len * pix_dist;
+		res_g = start_g + (end_g - start_g) / line_len * pix_dist;
+		res_b = start_b + (end_b - start_b) / line_len * pix_dist;
+	}
 	res_col = (res_r << 16) + (res_g << 8) + res_b;
 	return (res_col);
 }
@@ -82,7 +78,7 @@ static void		pix_put_x(t_coords line, t_breth brth, int col_start, int col_end)
 static void		pix_put_y(t_coords line, t_breth brth, int col_start, int col_end)
 {
 	int		len_y;
-
+	
 	len_y = brth.lengthY;
 	brth.d1 = brth.dx2 - brth.lengthY;
 	brth.d2 = brth.dz2 - brth.lengthY;

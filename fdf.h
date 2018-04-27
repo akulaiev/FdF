@@ -87,8 +87,11 @@ typedef	struct	s_coords
 
 typedef	struct	s_col
 {
-	int		j;
-	int		j1;
+	char	**temp;
+	int		x;
+	int		y;
+	int		check;
+	int		**col_arr;
 }				t_col;
 
 void			set_coord(t_coords src, int i, int j);
@@ -97,7 +100,7 @@ int				key_react(int keycode, void *param);
 t_data			read_the_map(int fd);
 int				get_array_size(t_data *dt);
 int				**get_coord(char **split_nl, int size_x, int size_y);
-int				**get_col(t_data sz, int i, int i1);
+int				**get_col(t_data sz, int i);
 void			put_line_right(int i, int j, t_coords src);
 void			put_line_down(int i, int j, t_coords src);
 void			put_line(t_coords src, t_dot start, t_dot end);
