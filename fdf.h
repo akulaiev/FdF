@@ -47,7 +47,24 @@ typedef struct	s_breth
 	int		z;
 	int		d1;
 	int		d2;
+	int		len_x;
+	int		len_y;
+	int		len_z;
+	int		i;
 }				t_breth;
+
+typedef	struct 	s_gradient
+{
+	int		start_r;
+	int		start_g;
+	int		start_b;
+	int		end_r;
+	int		end_g;
+	int		end_b;
+	int		res_r;
+	int		res_g;
+	int		res_b;
+}				t_gradient;
 
 typedef	struct	s_data
 {

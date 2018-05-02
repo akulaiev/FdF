@@ -16,7 +16,10 @@
 int		key_react(int keycode, void *param)
 {
 	if (keycode == 53)
+	{
+		// system("leaks fdf");
 		exit(0);
+	}
 	if (keycode <= 126 && keycode >= 123)
 		pic_move(keycode, param);
 	if (keycode == 69 || keycode == 24 || keycode == 78 || keycode == 27)
@@ -46,7 +49,8 @@ void	pic_scale(int keycode, void *param)
 	if (keycode == 69 || keycode == 24)
 		((t_coords*)param)->сoeff += 1;
 	if (keycode == 78 || keycode == 27)
-		((t_coords*)param)->сoeff -= 1;
+		if (((t_coords*)param)->сoeff > 2)
+			((t_coords*)param)->сoeff -= 1;
 	set_coord((*(t_coords*)param), 0, 0);
 }
 

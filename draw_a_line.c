@@ -13,51 +13,41 @@
 #include "fdf.h"
 #include <stdio.h>
 
-static int		gradient(int col_start, int col_end, int line_len, int pix_dist)
+static int		gradient(int cs, int ce, int line_len, int pix_dist)
 {
-	int		start_r;
-	int		start_g;
-	int		start_b;
-	int		end_r;
-	int		end_g;
-	int		end_b;
-	int		res_r;
-	int		res_g;
-	int		res_b;
-	int		res_col;
+	t_gradient	g;
 
-	start_r = (col_start >> 16) & 255;
-	start_g = (col_start >> 8) & 255;
-	start_b = col_start & 255;
-	end_r = (col_end >> 16) & 255;
-	end_g = (col_end >> 8) & 255;
-	end_b = col_end & 256;
-	if (col_start > col_end)
+	g.start_r = (cs >> 16) & 255;
+	g.start_g = (cs >> 8) & 255;
+	g.start_b = cs & 255;
+	g.end_r = (ce >> 16) & 255;
+	g.end_g = (ce >> 8) & 255;
+	g.end_b = ce & 256;
+	if (cs > ce)
 	{
-		res_r = start_r - (start_r - end_r) / line_len * pix_dist;
-		res_g = start_g - (start_g - end_g) / line_len * pix_dist;
-		res_b = start_b - (start_b - end_b) / line_len * pix_dist;
+		g.res_r = g.start_r - (g.start_r - g.end_r) / line_len * pix_dist;
+		g.res_g = g.start_g - (g.start_g - g.end_g) / line_len * pix_dist;
+		g.res_b = g.start_b - (g.start_b - g.end_b) / line_len * pix_dist;
 	}
 	else
 	{
-		res_r = start_r + (end_r - start_r) / line_len * pix_dist;
-		res_g = start_g + (end_g - start_g) / line_len * pix_dist;
-		res_b = start_b + (end_b - start_b) / line_len * pix_dist;
+		g.res_r = g.start_r + (g.end_r - g.start_r) / line_len * pix_dist;
+		g.res_g = g.start_g + (g.end_g - g.start_g) / line_len * pix_dist;
+		g.res_b = g.start_b + (g.end_b - g.start_b) / line_len * pix_dist;
 	}
-	res_col = (res_r << 16) + (res_g << 8) + res_b;
-	return (res_col);
+	return ((g.res_r << 16) + (g.res_g << 8) + g.res_b);
 }
 
-static void		pix_put_x(t_coords line, t_breth brth, int col_start, int col_end)
+static void		pix_put_x(t_coords line, t_breth brth, int cs, int ce)
 {
-	int		len_x;
-
-	len_x = brth.lengthX;
+	brth.i = 0;
+	brth.len_x = brth.lengthX;
 	brth.d1 = brth.dy2 - brth.lengthX;
 	brth.d2 = brth.dz2 - brth.lengthX;
 	while (brth.lengthX--)
 	{
-		line.col = gradient(col_start, col_end, len_x, brth.lengthX);
+		line.col = gradient(cs, ce, brth.len_x, brth.i);
+		brth.i++;
 		mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
 		if (brth.d1 > 0)
 		{
@@ -75,16 +65,16 @@ static void		pix_put_x(t_coords line, t_breth brth, int col_start, int col_end)
 	}
 }
 
-static void		pix_put_y(t_coords line, t_breth brth, int col_start, int col_end)
+static void		pix_put_y(t_coords line, t_breth brth, int cs, int ce)
 {
-	int		len_y;
-	
-	len_y = brth.lengthY;
+	brth.i = 0;
+	brth.len_y = brth.lengthY;
 	brth.d1 = brth.dx2 - brth.lengthY;
 	brth.d2 = brth.dz2 - brth.lengthY;
 	while (brth.lengthY--)
 	{
-		line.col = gradient(col_start, col_end, len_y, brth.lengthY);
+		line.col = gradient(cs, ce, brth.len_y, brth.i);
+		brth.i++;
 		mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
 		if (brth.d1 > 0)
 		{
@@ -102,16 +92,16 @@ static void		pix_put_y(t_coords line, t_breth brth, int col_start, int col_end)
 	}
 }
 
-static void		pix_put_z(t_coords line, t_breth brth, int col_start, int col_end)
+static void		pix_put_z(t_coords line, t_breth brth, int cs, int ce)
 {
-	int		len_z;
-
-	len_z = brth.lengthZ;
+	brth.i = 0;
+	brth.len_z = brth.lengthZ;
 	brth.d1 = brth.dy2 - brth.lengthZ;
 	brth.d2 = brth.dx2 - brth.lengthZ;
 	while (brth.lengthZ--)
 	{
-		line.col = gradient(col_start, col_end, len_z, brth.lengthZ);
+		line.col = gradient(cs, ce, brth.len_z, brth.i);
+		brth.i++;
 		mlx_pixel_put(line.mlx_p, line.mlx_nw, brth.x, brth.y, line.col);
 		if (brth.d1 > 0)
 		{

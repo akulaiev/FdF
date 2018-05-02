@@ -48,7 +48,7 @@ void	put_line_down(int i, int j, t_coords src)
 {
 	t_dot start;
 	t_dot end;
-	
+
 	start.x = j;
 	start.y = i;
 	start.z = src.coord_arr[i][j];
@@ -62,6 +62,10 @@ void	put_line_down(int i, int j, t_coords src)
 
 void	set_coord(t_coords src, int i, int j)
 {
+	mlx_string_put(src.mlx_p, src.mlx_nw, 10, 30, 0x42f4d9,
+	"Use '+' and '-' to scale the picture, arrows to move it around");
+	mlx_string_put(src.mlx_p, src.mlx_nw, 10, 50, 0x42f4d9,
+		"and 'w', 's', 'a', 'd', 'q', 'e' for rotations.");
 	while (i < src.size_y)
 	{
 		j = 0;
@@ -81,7 +85,7 @@ void	set_coord(t_coords src, int i, int j)
 	}
 }
 
-int				main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	int			fd;
 	t_data		sz;
@@ -101,13 +105,10 @@ int				main(int argc, char **argv)
 	coords.col_arr = get_col(sz, 0);
 	if (!(coords.coord_arr) || !(coords.col_arr))
 		return (write(2, "Error: problem with arrays of coords\n", 37));
-	ft_putendl("Hi! Enjoy exploring my FdF project. Use '+' and '-' to scale the picture,\
-arrows to move it around and 'w', 's', 'a', 'd', 'q', 'e' for rotations.");
-	// print_arr(coords.col_arr, coords.size_x, coords.size_y);
-	// print_arr(coords.coord_arr, coords.size_x, coords.size_y);
-	// system("leaks fdf");
 	manipulate_window(&coords);
-	mlx_key_hook(coords.mlx_nw, key_react, (void*)&coords);
+	mlx_string_put(coords.mlx_p, coords.mlx_nw, 10, 10, 0x42f4d9,
+	"Hi! Enjoy exploring my FdF project!!!");
+	mlx_hook(coords.mlx_nw, 2, 5, key_react, (void*)&coords);
 	set_coord(coords, 0, 0);
 	mlx_loop(coords.mlx_p);
 	return (0);
