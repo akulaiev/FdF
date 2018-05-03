@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 static int		gradient(int cs, int ce, int line_len, int pix_dist)
 {
@@ -41,10 +40,10 @@ static int		gradient(int cs, int ce, int line_len, int pix_dist)
 static void		pix_put_x(t_coords line, t_breth brth, int cs, int ce)
 {
 	brth.i = 0;
-	brth.len_x = brth.lengthX;
-	brth.d1 = brth.dy2 - brth.lengthX;
-	brth.d2 = brth.dz2 - brth.lengthX;
-	while (brth.lengthX--)
+	brth.len_x = brth.leng_x;
+	brth.d1 = brth.dy2 - brth.leng_x;
+	brth.d2 = brth.dz2 - brth.leng_x;
+	while (brth.leng_x--)
 	{
 		line.col = gradient(cs, ce, brth.len_x, brth.i);
 		brth.i++;
@@ -68,10 +67,10 @@ static void		pix_put_x(t_coords line, t_breth brth, int cs, int ce)
 static void		pix_put_y(t_coords line, t_breth brth, int cs, int ce)
 {
 	brth.i = 0;
-	brth.len_y = brth.lengthY;
-	brth.d1 = brth.dx2 - brth.lengthY;
-	brth.d2 = brth.dz2 - brth.lengthY;
-	while (brth.lengthY--)
+	brth.len_y = brth.leng_y;
+	brth.d1 = brth.dx2 - brth.leng_y;
+	brth.d2 = brth.dz2 - brth.leng_y;
+	while (brth.leng_y--)
 	{
 		line.col = gradient(cs, ce, brth.len_y, brth.i);
 		brth.i++;
@@ -95,10 +94,10 @@ static void		pix_put_y(t_coords line, t_breth brth, int cs, int ce)
 static void		pix_put_z(t_coords line, t_breth brth, int cs, int ce)
 {
 	brth.i = 0;
-	brth.len_z = brth.lengthZ;
-	brth.d1 = brth.dy2 - brth.lengthZ;
-	brth.d2 = brth.dx2 - brth.lengthZ;
-	while (brth.lengthZ--)
+	brth.len_z = brth.leng_z;
+	brth.d1 = brth.dy2 - brth.leng_z;
+	brth.d2 = brth.dx2 - brth.leng_z;
+	while (brth.leng_z--)
 	{
 		line.col = gradient(cs, ce, brth.len_z, brth.i);
 		brth.i++;
@@ -126,22 +125,22 @@ void			draw_a_line(t_coords line, t_dot start, t_dot end)
 	brth.dx = end.x - start.x;
 	brth.dy = end.y - start.y;
 	brth.dz = end.z - start.z;
-	brth.lengthX = abs(brth.dx);
-	brth.lengthY = abs(brth.dy);
-	brth.lengthZ = abs(brth.dz);
+	brth.leng_x = abs(brth.dx);
+	brth.leng_y = abs(brth.dy);
+	brth.leng_z = abs(brth.dz);
 	brth.x_inc = (brth.dx < 0) ? -1 : 1;
 	brth.y_inc = (brth.dy < 0) ? -1 : 1;
 	brth.z_inc = (brth.dz < 0) ? -1 : 1;
-	brth.length = fmax((float)brth.lengthX, (float)brth.lengthY) + 1;
+	brth.length = fmax((float)brth.leng_x, (float)brth.leng_y) + 1;
 	brth.x = start.x;
 	brth.y = start.y;
 	brth.z = start.z;
-	brth.dx2 = brth.lengthX << 1;
-	brth.dy2 = brth.lengthY << 1;
-	brth.dz2 = brth.lengthZ << 1;
-	if ((brth.lengthX >= brth.lengthY) && (brth.lengthX >= brth.lengthZ))
+	brth.dx2 = brth.leng_x << 1;
+	brth.dy2 = brth.leng_y << 1;
+	brth.dz2 = brth.leng_z << 1;
+	if ((brth.leng_x >= brth.leng_y) && (brth.leng_x >= brth.leng_z))
 		pix_put_x(line, brth, start.col, end.col);
-	else if ((brth.lengthY >= brth.lengthX) && (brth.lengthY >= brth.lengthZ))
+	else if ((brth.leng_y >= brth.leng_x) && (brth.leng_y >= brth.leng_z))
 		pix_put_y(line, brth, start.col, end.col);
 	else
 		pix_put_z(line, brth, start.col, end.col);

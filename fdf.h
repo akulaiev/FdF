@@ -19,10 +19,10 @@
 # include "./minilibx_macos/mlx.h"
 # include "./libft/libft.h"
 
-typedef struct s_dot
+typedef struct	s_dot
 {
-	int 	x;
-	int 	y;
+	int		x;
+	int		y;
 	int		z;
 	int		col;
 }				t_dot;
@@ -35,9 +35,9 @@ typedef struct	s_breth
 	int		dx2;
 	int		dy2;
 	int		dz2;
-	int		lengthX;
-	int		lengthY;
-	int		lengthZ;
+	int		leng_x;
+	int		leng_y;
+	int		leng_z;
 	int		length;
 	int		x_inc;
 	int		y_inc;
@@ -53,7 +53,7 @@ typedef struct	s_breth
 	int		i;
 }				t_breth;
 
-typedef	struct 	s_gradient
+typedef	struct	s_gradient
 {
 	int		start_r;
 	int		start_g;
@@ -75,6 +75,7 @@ typedef	struct	s_data
 	int		count_num_first;
 	int		count_num_temp;
 	int		er;
+	int		col_flag;
 }				t_data;
 
 typedef	struct	s_chk_sp
@@ -117,7 +118,7 @@ int				key_react(int keycode, void *param);
 t_data			read_the_map(int fd);
 int				get_array_size(t_data *dt);
 int				**get_coord(char **split_nl, int size_x, int size_y);
-int				**get_col(t_data sz, int i);
+int				**get_col(t_data *sz, int i);
 void			put_line_right(int i, int j, t_coords src);
 void			put_line_down(int i, int j, t_coords src);
 void			put_line(t_coords src, t_dot start, t_dot end);
@@ -132,7 +133,8 @@ int				count_diagonal(t_coords *c);
 void			pic_move(int keycode, void *param);
 void			pic_scale(int keycode, void *param);
 void			rotate(int keycode, void *param);
-
-void		print_arr(int **arr, int size_x, int size_y);
+void			open_window(t_coords coords);
+void			add_colours(t_coords *src, int col_num);
+void			change_col(int keycode, void *param);
 
 #endif

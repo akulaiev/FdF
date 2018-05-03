@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 void	put_line(t_coords src, t_dot start, t_dot end)
 {
@@ -65,7 +64,9 @@ void	set_coord(t_coords src, int i, int j)
 	mlx_string_put(src.mlx_p, src.mlx_nw, 10, 30, 0x42f4d9,
 	"Use '+' and '-' to scale the picture, arrows to move it around");
 	mlx_string_put(src.mlx_p, src.mlx_nw, 10, 50, 0x42f4d9,
-		"and 'w', 's', 'a', 'd', 'q', 'e' for rotations.");
+	"and 'w', 's', 'a', 'd', 'q', 'e' for rotations.");
+	mlx_string_put(src.mlx_p, src.mlx_nw, 10, 70, 0x42f4d9,
+	"To choose one of colour schemes for blank maps, press numbers.");
 	while (i < src.size_y)
 	{
 		j = 0;
@@ -102,14 +103,11 @@ int		main(int argc, char **argv)
 	coords.size_x = sz.count_num_first;
 	coords.size_y = sz.i;
 	coords.coord_arr = get_coord(sz.no_c, coords.size_x, coords.size_y);
-	coords.col_arr = get_col(sz, 0);
+	coords.col_arr = get_col(&sz, 0);
 	if (!(coords.coord_arr) || !(coords.col_arr))
 		return (write(2, "Error: problem with arrays of coords\n", 37));
-	manipulate_window(&coords);
-	mlx_string_put(coords.mlx_p, coords.mlx_nw, 10, 10, 0x42f4d9,
-	"Hi! Enjoy exploring my FdF project!!!");
-	mlx_hook(coords.mlx_nw, 2, 5, key_react, (void*)&coords);
-	set_coord(coords, 0, 0);
-	mlx_loop(coords.mlx_p);
+	if (!sz.col_flag)
+		add_colours(&coords, 0);
+	open_window(coords);
 	return (0);
 }

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 t_dot	turn_x(t_dot dot, double angle)
 {

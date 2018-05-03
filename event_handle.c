@@ -11,15 +11,15 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 int		key_react(int keycode, void *param)
 {
 	if (keycode == 53)
-	{
-		// system("leaks fdf");
 		exit(0);
-	}
+	if (keycode >= 83 && keycode <= 92)
+		change_col(keycode - 82, param);
+	if (keycode >= 18 && keycode <= 29)
+		change_col(keycode - 17, param);
 	if (keycode <= 126 && keycode >= 123)
 		pic_move(keycode, param);
 	if (keycode == 69 || keycode == 24 || keycode == 78 || keycode == 27)
@@ -27,6 +27,13 @@ int		key_react(int keycode, void *param)
 	if ((keycode >= 0 && keycode <= 2) || (keycode >= 12 && keycode <= 14))
 		rotate(keycode, param);
 	return (0);
+}
+
+void	change_col(int keycode, void *param)
+{
+	mlx_clear_window(((t_coords*)param)->mlx_p, ((t_coords*)param)->mlx_nw);
+	add_colours((t_coords*)param, keycode);
+	set_coord((*(t_coords*)param), 0, 0);
 }
 
 void	pic_move(int keycode, void *param)

@@ -12,6 +12,16 @@
 
 #include "fdf.h"
 
+void	open_window(t_coords coords)
+{
+	manipulate_window(&coords);
+	mlx_string_put(coords.mlx_p, coords.mlx_nw, 10, 10, 0x42f4d9,
+	"Hi! Enjoy exploring my FdF project!!!");
+	mlx_hook(coords.mlx_nw, 2, 5, key_react, (void*)&coords);
+	set_coord(coords, 0, 0);
+	mlx_loop(coords.mlx_p);
+}
+
 void	manipulate_window(t_coords *c)
 {
 	int		win_diagonal;
@@ -66,9 +76,9 @@ int		count_win_diagonal(t_coords *coords, int diagonal)
 
 	if (diagonal < 100)
 	{
-		coords->win_width = 750;
-		coords->win_length = 750;
-		win_diagonal = sqrt((750 * 750) + (750 * 750));
+		coords->win_width = 850;
+		coords->win_length = 850;
+		win_diagonal = sqrt((850 * 850) + (850 * 850));
 	}
 	else if (diagonal > 100 && diagonal < 400)
 	{

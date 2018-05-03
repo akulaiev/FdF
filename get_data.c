@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 static char		**ft_realloc_2d(char **line, int old)
 {
@@ -108,5 +107,6 @@ t_data			read_the_map(int fd)
 		return (dt);
 	}
 	dt.er = 1;
+	dt.col_flag = 0;
 	return (dt);
 }

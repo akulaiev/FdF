@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 static int	**arr_memalloc(int size_x, int size_y)
 {
@@ -31,30 +30,29 @@ static int	**arr_memalloc(int size_x, int size_y)
 	return (NULL);
 }
 
-int			**get_col(t_data sz, int i)
+int			**get_col(t_data *sz, int i)
 {
 	t_col	c;
 
-	if (!(c.col_arr = arr_memalloc(sz.count_num_first, sz.i)))
+	if (!(c.col_arr = arr_memalloc(sz->count_num_first, sz->i)))
 		return (NULL);
-	while (i < sz.i)
+	while (i < sz->i)
 	{
-		c.temp = ft_strsplit(sz.aln[i], ' ');
-		c.x = 0;
-		while (c.temp[c.x])
+		c.temp = ft_strsplit(sz->aln[i], ' ');
+		c.x = -1;
+		while (c.temp[++c.x])
 		{
-			c.y = 0;
+			c.y = -1;
 			c.check = 0;
-			while (c.temp[c.x][c.y])
-			{
+			while (c.temp[c.x][++c.y])
 				if (c.temp[c.x][c.y] == 'x' && (c.check = 1))
+				{
+					sz->col_flag = 1;
 					c.col_arr[i][c.x] = ft_atoi_base(&c.temp[c.x][c.y + 1], 16);
-				c.y++;
-			}
+				}
 			c.check == 0 ? c.col_arr[i][c.x] = 0xffffff : 0;
-			c.x++;
 		}
-		ft_double_free((void**)c.temp, sz.count_num_first);
+		ft_double_free((void**)c.temp, sz->count_num_first);
 		i++;
 	}
 	return (c.col_arr);
@@ -86,22 +84,30 @@ int			**get_coord(char **split_nl, int size_x, int size_y)
 	return (coord_arr);
 }
 
-void		print_arr(int **arr, int size_x, int size_y)
+void		add_colours(t_coords *src, int col_num)
 {
-	int i;
-	int j;
+	const int	gradients[9][2] =
+	{{0xef3b36, 0xfdeff9}, {0xf4c4f3, 0xfc67fa}, {0x00bf8f, 0x001510},
+	{0x00c3ff, 0xffff1c}, {0x7303c0, 0xec38bc}, {0xef32d9, 0x89fffd},
+	{0xfc4a1a, 0xf7b733}, {0x1a2a6c, 0xfdbb2d}, {0xff0084, 0x33001b}};
+	int			i;
+	int			j;
 
 	i = 0;
-	while (i < size_y)
+	while (i < src->size_y)
 	{
 		j = 0;
-		while (j < size_x)
+		if (col_num > 0)
 		{
-			printf("%#x ", arr[i][j]);
-			j++;
+			while (j < src->size_x)
+			{
+				if (src->coord_arr[i][j] <= 0)
+					src->col_arr[i][j] = gradients[col_num - 1][0];
+				else
+					src->col_arr[i][j] = gradients[col_num - 1][1];
+				j++;
+			}
 		}
-		printf("\n");
 		i++;
 	}
-	printf("\n");
 }
