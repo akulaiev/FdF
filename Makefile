@@ -19,7 +19,6 @@ LIBFT = ./libft/libft.a
 LIBFT_PATH = ./libft/
 
 MLX = ./minilibx_macos/libmlx.a
-MLX_PATH = ./minilibx_macos/
 
 SOURCE = main.c draw_a_line.c event_handle.c get_data.c check_data.c \
 create_array.c img_transform.c img_transform_help.c
@@ -31,10 +30,9 @@ HEADER = -I ./fdf.h
 all: LIBS $(NAME) 
 
 $(NAME): $(O_FILES)
-	$(CC) $(MLX) -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT) # -lmlx
+	$(CC) -lmlx -framework OpenGL -framework AppKit $(CFLAGS) -o $(NAME) $(O_FILES) $(LIBFT)
 
 LIBS:
-	make -C $(MLX_PATH)
 	make -C $(LIBFT_PATH)
 
 %.o: %.c

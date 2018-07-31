@@ -22,7 +22,7 @@ void	ft_double_free(void **data, int num_lines)
 		while (i < num_lines && data[i])
 		{
 			free(data[i]);
-				i++;
+			i++;
 		}
 		free(data);
 		data = NULL;
