@@ -38,7 +38,7 @@ void	manipulate_window(t_coords *c)
 	c->shift_right = (c->win_width / 2) - ((c->size_x * c->сoeff) / 2);
 	c->shift_down = (c->win_length / 2) - ((c->size_y * c->сoeff) / 2);
 	c->mlx_p = mlx_init();
-	c->mlx_nw = mlx_new_window(c->mlx_p, c->win_width, c->win_length, "test");
+	c->mlx_nw = mlx_new_window(c->mlx_p, c->win_width, c->win_length, "fdf");
 }
 
 int		count_diagonal(t_coords *c)
