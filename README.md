@@ -4,6 +4,7 @@ This project is about creating a simplified 3D graphic representation of a relie
 <img src="https://github.com/akulaiev/FdF/blob/master/demo.png" width="350">
 </p>
 # Running
+
 To compile the executable, use Make. Then run it with one of the test files in the "maps" directory from the root of this repository.
 ```
 Usage: ./fdf maps/map_name
